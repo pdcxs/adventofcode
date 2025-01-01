@@ -1,0 +1,86 @@
+cabal-version: 2.2
+
+-- This file has been generated from package.yaml by hpack version 0.36.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           adventofcode
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/pdcxs/adventofcode#readme>
+homepage:       https://github.com/pdcxs/adventofcode#readme
+bug-reports:    https://github.com/pdcxs/adventofcode/issues
+author:         pdcxs
+maintainer:     pdcxs@outlook.com
+copyright:      2024 pdcxs
+license:        BSD-3-Clause
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/pdcxs/adventofcode
+
+library
+  exposed-modules:
+      AdventOfCode
+      Year2024.Day1
+      Year2024.Day2
+      Year2024.Day3
+      Year2024.Day4
+      Year2024.Day5
+      Year2024.Day6
+  other-modules:
+      Paths_adventofcode
+  autogen-modules:
+      Paths_adventofcode
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
+  build-depends:
+      algebraic-graphs
+    , array
+    , base >=4.7 && <5
+    , containers
+    , filepath
+    , parsec
+    , vector
+  default-language: Haskell2010
+
+executable adventofcode-exe
+  main-is: Main.hs
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      adventofcode
+    , algebraic-graphs
+    , array
+    , base >=4.7 && <5
+    , containers
+    , filepath
+    , parsec
+    , vector
+  default-language: Haskell2010
+
+test-suite adventofcode-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_adventofcode
+  autogen-modules:
+      Paths_adventofcode
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      adventofcode
+    , algebraic-graphs
+    , array
+    , base >=4.7 && <5
+    , containers
+    , filepath
+    , parsec
+    , vector
+  default-language: Haskell2010
