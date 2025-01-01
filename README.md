@@ -25,3 +25,5 @@ stack run -- 2024 6 2
 ```
 stack run -- 2024 1 1 test
 ```
+
+这是我的[B站视频记录](https://www.bilibili.com/video/BV1vPC5YUEQZ)。
