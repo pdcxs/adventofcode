@@ -7,6 +7,7 @@ import qualified Year2024.Day3
 import qualified Year2024.Day4
 import qualified Year2024.Day5
 import qualified Year2024.Day6
+import qualified Year2024.Day7
 
 solutions :: M.Map (Int, Int, Int) (String -> String)
 solutions =
@@ -22,5 +23,7 @@ solutions =
       ((2024, 5, 1), Year2024.Day5.solution1),
       ((2024, 5, 2), Year2024.Day5.solution2),
       ((2024, 6, 1), Year2024.Day6.solution1),
-      ((2024, 6, 2), Year2024.Day6.solution2)
+      ((2024, 6, 2), Year2024.Day6.solution2),
+      ((2024, 7, 1), Year2024.Day7.solution1),
+      ((2024, 7, 2), Year2024.Day7.solution2)
     ]
