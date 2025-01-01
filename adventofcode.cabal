@@ -31,6 +31,7 @@ library
       Year2024.Day4
       Year2024.Day5
       Year2024.Day6
+      Year2024.Day7
   other-modules:
       Paths_adventofcode
   autogen-modules:
