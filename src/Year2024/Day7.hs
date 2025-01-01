@@ -30,6 +30,7 @@ solution1 =
     . filter (uncurry (isRight [(+), (*)]))
     . processInput
 
+-- very slow, but it just works.
 solution2 :: String -> String
 solution2 =
   show
