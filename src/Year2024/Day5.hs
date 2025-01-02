@@ -1,10 +1,8 @@
 module Year2024.Day5 (solution1, solution2) where
 
-import Algebra.Graph.AdjacencyIntMap
-import Algebra.Graph.AdjacencyIntMap.Algorithm
 import Text.Parsec
 import Text.Parsec.String
-import Control.Monad (void, guard)
+import Control.Monad (void)
 import Data.Either (fromRight)
 
 ruleParser :: Parser (Int, Int)
@@ -20,8 +18,7 @@ updateParser = sepBy (read <$> many digit) (char ',')
 parser :: Parser ([(Int, Int)], [[Int]])
 parser = do
   rules <- many (ruleParser <* endOfLine)
-  void endOfLine
-  updates <- sepBy updateParser endOfLine
+  updates <- many (endOfLine *> updateParser)
   return (rules, updates)
 
 processInput :: String -> ([(Int, Int)], [[Int]])
@@ -31,8 +28,12 @@ solution1 :: String -> String
 solution1 s = show $ sum $ map middle good
   where
     (rules, updates) = processInput s
-    g = edges rules
-    good = [p| p <- updates, isTopSortOf p (induce (`elem` p) g)]
+    good = filter (isTopSortOf rules) updates
+
+isTopSortOf :: [(Int, Int)] -> [Int] -> Bool
+isTopSortOf _ [] = True
+isTopSortOf g (x:xs) = not (or [(y, x) `elem` g | y <- xs]) &&
+  isTopSortOf g xs
 
 middle :: [Int] -> Int
 middle xs = xs !! m
@@ -43,10 +44,16 @@ solution2 :: String -> String
 solution2 s = show $ sum $ map middle sorted
   where
     (rules, updates) = processInput s
-    g = edges rules
-    bad = do
-      p <- updates
-      let subg = induce (`elem` p) g
-      guard (not (isTopSortOf p subg))
-      return subg
-    sorted = map (fromRight undefined . topSort) bad
+    bad = filter (not . isTopSortOf rules) updates
+    sorted = map (topSort rules) bad
+
+topSort :: [(Int, Int)] -> [Int] -> [Int]
+topSort _ [] = []
+topSort _ [x] = [x]
+topSort g (x:xs) = insert x (topSort g xs)
+  where
+    insert y [] = [y]
+    insert y (z:zs) =
+      if (y, z) `elem` g then
+        y:z:zs else
+          z : insert y zs
