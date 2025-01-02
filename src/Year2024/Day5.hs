@@ -1,9 +1,9 @@
 module Year2024.Day5 (solution1, solution2) where
 
-import Text.Parsec
-import Text.Parsec.String
 import Control.Monad (void)
 import Data.Either (fromRight)
+import Text.Parsec
+import Text.Parsec.String
 
 ruleParser :: Parser (Int, Int)
 ruleParser = do
@@ -32,8 +32,9 @@ solution1 s = show $ sum $ map middle good
 
 isTopSortOf :: [(Int, Int)] -> [Int] -> Bool
 isTopSortOf _ [] = True
-isTopSortOf g (x:xs) = not (or [(y, x) `elem` g | y <- xs]) &&
-  isTopSortOf g xs
+isTopSortOf g (x : xs) =
+  not (or [(y, x) `elem` g | y <- xs])
+    && isTopSortOf g xs
 
 middle :: [Int] -> Int
 middle xs = xs !! m
@@ -50,10 +51,12 @@ solution2 s = show $ sum $ map middle sorted
 topSort :: [(Int, Int)] -> [Int] -> [Int]
 topSort _ [] = []
 topSort _ [x] = [x]
-topSort g (x:xs) = insert x (topSort g xs)
+topSort g (x : xs) = insert x (topSort g xs)
   where
     insert y [] = [y]
-    insert y (z:zs) =
-      if (y, z) `elem` g then
-        y:z:zs else
+    insert y (z : zs) =
+      if (y, z) `elem` g
+        then
+          y : z : zs
+        else
           z : insert y zs
