@@ -25,6 +25,7 @@ dependencies:
 - vector
 - parsec
 - array
+- split
 
 ghc-options:
 - -Wall
