@@ -9,18 +9,18 @@ processInput = map processLine . lines
 
 type Op = Int -> Int -> Int
 
-combs :: [Op] -> [Int] -> [Int]
-combs _ [] = []
-combs _ [x] = [x]
-combs ops (x : y : xs) =
+combs :: Int -> [Op] -> [Int] -> [Int]
+combs _ _ [] = []
+combs t _ [x] = [x | t == x]
+combs t ops (x : y : xs) =
   concatMap
-    (\n -> combs ops (n : xs))
+    (\n -> combs t ops (n : xs))
     nums
   where
-    nums = map (\f -> f x y) ops
+    nums = filter (<= t) $ map (\f -> f x y) ops
 
 isRight :: [Op] -> Int -> [Int] -> Bool
-isRight ops target xs = target `elem` combs ops xs
+isRight ops target xs = target `elem` combs target ops xs
 
 solution1 :: String -> String
 solution1 =
