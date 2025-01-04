@@ -33,6 +33,7 @@ library
       Year2024.Day6
       Year2024.Day7
       Year2024.Day8
+      Year2024.Day9
   other-modules:
       Paths_adventofcode
   autogen-modules:
@@ -46,6 +47,7 @@ library
     , containers
     , filepath
     , parsec
+    , split
     , vector
   default-language: Haskell2010
 
@@ -61,6 +63,7 @@ executable adventofcode-exe
     , containers
     , filepath
     , parsec
+    , split
     , vector
   default-language: Haskell2010
 
@@ -81,5 +84,6 @@ test-suite adventofcode-test
     , containers
     , filepath
     , parsec
+    , split
     , vector
   default-language: Haskell2010
