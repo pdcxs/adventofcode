@@ -26,7 +26,10 @@ processInput s = (zip files [0 ..], frees)
         go 0 $
           map (\c -> ord c - ord '0') s
     files = map head spans
-    frees = map last spans
+    frees =
+      concatMap
+        (\x -> [last x | length x == 2])
+        spans
 
 -- process a file
 -- get new files and new free spaces
