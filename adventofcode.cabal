@@ -26,6 +26,7 @@ library
   exposed-modules:
       AdventOfCode
       Year2024.Day1
+      Year2024.Day10
       Year2024.Day2
       Year2024.Day3
       Year2024.Day4
