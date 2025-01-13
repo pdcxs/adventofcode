@@ -3,6 +3,7 @@ module Year2024.Day10 (solution1, solution2) where
 import Data.Char (ord)
 import Data.Containers.ListUtils (nubOrd)
 import qualified Data.Vector as V
+import Data.Vector ((!?))
 
 type Loc = (Int, Int)
 
@@ -29,8 +30,8 @@ parseMap = V.fromList . map (V.fromList . map toInt)
 
 get :: Map -> Loc -> Maybe Int
 get m (x, y) = do
-  row <- (V.!?) m y
-  (V.!?) row x
+  row <- m !? y
+  row !? x
 
 getDest :: Map -> Loc -> [Loc]
 getDest m loc =
