@@ -27,6 +27,7 @@ library
       AdventOfCode
       Year2024.Day1
       Year2024.Day10
+      Year2024.Day11
       Year2024.Day2
       Year2024.Day3
       Year2024.Day4
@@ -43,7 +44,8 @@ library
       src
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
   build-depends:
-      array
+      MemoTrie
+    , array
     , base >=4.7 && <5
     , containers
     , filepath
@@ -58,7 +60,8 @@ executable adventofcode-exe
       app
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      adventofcode
+      MemoTrie
+    , adventofcode
     , array
     , base >=4.7 && <5
     , containers
@@ -79,7 +82,8 @@ test-suite adventofcode-test
       test
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      adventofcode
+      MemoTrie
+    , adventofcode
     , array
     , base >=4.7 && <5
     , containers

@@ -26,6 +26,7 @@ dependencies:
 - parsec
 - array
 - split
+- MemoTrie
 
 ghc-options:
 - -Wall
