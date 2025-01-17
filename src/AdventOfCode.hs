@@ -2,6 +2,9 @@ module AdventOfCode (solutions) where
 
 import qualified Data.Map as M
 import qualified Year2024.Day1
+import qualified Year2024.Day10
+import qualified Year2024.Day11
+import qualified Year2024.Day12
 import qualified Year2024.Day2
 import qualified Year2024.Day3
 import qualified Year2024.Day4
@@ -10,8 +13,6 @@ import qualified Year2024.Day6
 import qualified Year2024.Day7
 import qualified Year2024.Day8
 import qualified Year2024.Day9
-import qualified Year2024.Day10
-import qualified Year2024.Day11
 
 solutions :: M.Map (Int, Int, Int) (String -> String)
 solutions =
@@ -37,5 +38,7 @@ solutions =
       ((2024, 10, 1), Year2024.Day10.solution1),
       ((2024, 10, 2), Year2024.Day10.solution2),
       ((2024, 11, 1), Year2024.Day11.solution1),
-      ((2024, 11, 2), Year2024.Day11.solution2)
+      ((2024, 11, 2), Year2024.Day11.solution2),
+      ((2024, 12, 1), Year2024.Day12.solution1),
+      ((2024, 12, 2), Year2024.Day12.solution2)
     ]
