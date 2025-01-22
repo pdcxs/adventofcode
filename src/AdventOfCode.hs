@@ -6,6 +6,7 @@ import qualified Year2024.Day10
 import qualified Year2024.Day11
 import qualified Year2024.Day12
 import qualified Year2024.Day13
+import qualified Year2024.Day14
 import qualified Year2024.Day2
 import qualified Year2024.Day3
 import qualified Year2024.Day4
@@ -44,4 +45,6 @@ solutions =
     , ((2024, 12, 2), Year2024.Day12.solution2)
     , ((2024, 13, 1), Year2024.Day13.solution1)
     , ((2024, 13, 2), Year2024.Day13.solution2)
+    , ((2024, 14, 1), Year2024.Day14.solution1)
+    , ((2024, 14, 2), Year2024.Day14.solution2)
     ]
