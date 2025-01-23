@@ -30,6 +30,8 @@ dependencies:
 - text
 - sdl2
 - sdl2-ttf
+- linear
+- time
 
 ghc-options:
 - -Wall
