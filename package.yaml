@@ -27,6 +27,9 @@ dependencies:
 - array
 - split
 - MemoTrie
+- text
+- sdl2
+- sdl2-ttf
 
 ghc-options:
 - -Wall
