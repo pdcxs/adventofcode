@@ -1,4 +1,4 @@
-module AdventOfCode (solutions) where
+module AdventOfCode (solutions, animations) where
 
 import qualified Data.Map as M
 import qualified Year2024.Day1
@@ -7,6 +7,7 @@ import qualified Year2024.Day11
 import qualified Year2024.Day12
 import qualified Year2024.Day13
 import qualified Year2024.Day14
+import qualified Year2024.Day15
 import qualified Year2024.Day2
 import qualified Year2024.Day3
 import qualified Year2024.Day4
@@ -47,4 +48,13 @@ solutions =
     , ((2024, 13, 2), Year2024.Day13.solution2)
     , ((2024, 14, 1), Year2024.Day14.solution1)
     , ((2024, 14, 2), Year2024.Day14.solution2)
+    , ((2024, 15, 1), Year2024.Day15.solution1)
+    , ((2024, 15, 2), Year2024.Day15.solution2)
+    ]
+
+animations :: M.Map (Int, Int, Int) (String -> [String])
+animations =
+  M.fromList
+    [ ((2024, 15, 3), Year2024.Day15.animation1)
+    , ((2024, 15, 4), Year2024.Day15.animation2)
     ]
