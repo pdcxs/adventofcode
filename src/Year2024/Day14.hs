@@ -67,10 +67,6 @@ printMap pos = go 0 0 []
   go x y ss
     | x == width = go 0 (y + 1) ('\n' : ss)
     | y == height = reverse ss
-    | x == 0 =
-        if (0, y) `S.member` loc
-          then go (x + 1) y ('X' : ss)
-          else go (x + 1) y (' ' : ss)
     | otherwise =
         if (x, y) `S.member` loc
           then go (x + 1) y ('X' : ss)
