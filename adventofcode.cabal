@@ -33,6 +33,7 @@ library
       Year2024.Day14
       Year2024.Day15
       Year2024.Day16
+      Year2024.Day17
       Year2024.Day2
       Year2024.Day3
       Year2024.Day4
@@ -55,6 +56,7 @@ library
     , containers
     , filepath
     , linear
+    , mtl
     , parsec
     , sdl2
     , sdl2-ttf
@@ -77,6 +79,7 @@ executable adventofcode-exe
     , containers
     , filepath
     , linear
+    , mtl
     , parsec
     , sdl2
     , sdl2-ttf
@@ -104,6 +107,7 @@ test-suite adventofcode-test
     , containers
     , filepath
     , linear
+    , mtl
     , parsec
     , sdl2
     , sdl2-ttf
