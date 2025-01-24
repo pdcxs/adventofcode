@@ -11,6 +11,7 @@ import qualified Year2024.Day15
 import qualified Year2024.Day16
 import qualified Year2024.Day17
 import qualified Year2024.Day18
+import qualified Year2024.Day19
 import qualified Year2024.Day2
 import qualified Year2024.Day3
 import qualified Year2024.Day4
@@ -59,6 +60,8 @@ solutions =
     , ((2024, 17, 2), Year2024.Day17.solution2)
     , ((2024, 18, 1), Year2024.Day18.solution1)
     , ((2024, 18, 2), Year2024.Day18.solution2)
+    , ((2024, 19, 1), Year2024.Day19.solution1)
+    , ((2024, 19, 2), Year2024.Day19.solution2)
     ]
 
 animations :: M.Map (Int, Int, Int) (String -> [String])

@@ -33,6 +33,7 @@ dependencies:
 - sdl2-ttf
 - linear
 - time
+- regex-tdfa
 
 ghc-options:
 - -Wall
