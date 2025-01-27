@@ -25,7 +25,15 @@ source-repository head
 library
   exposed-modules:
       AdventOfCode
-      Year2024.Day1
+      Year2024.Day01
+      Year2024.Day02
+      Year2024.Day03
+      Year2024.Day04
+      Year2024.Day05
+      Year2024.Day06
+      Year2024.Day07
+      Year2024.Day08
+      Year2024.Day09
       Year2024.Day10
       Year2024.Day11
       Year2024.Day12
@@ -36,20 +44,13 @@ library
       Year2024.Day17
       Year2024.Day18
       Year2024.Day19
-      Year2024.Day2
       Year2024.Day20
       Year2024.Day21
       Year2024.Day22
       Year2024.Day23
       Year2024.Day24
       Year2024.Day25
-      Year2024.Day3
-      Year2024.Day4
-      Year2024.Day5
-      Year2024.Day6
-      Year2024.Day7
-      Year2024.Day8
-      Year2024.Day9
+      Year2024.Solutions
   other-modules:
       Paths_adventofcode
   autogen-modules:

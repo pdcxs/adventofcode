@@ -1,10 +1,10 @@
 {-# LANGUAGE LambdaCase #-}
 
-module Year2024.Day3 (solution1, solution2) where
+module Year2024.Day03 (solution1, solution2) where
 
-import Control.Applicative
-  ( Alternative (empty, many, (<|>)),
-  )
+import Control.Applicative (
+  Alternative (empty, many, (<|>)),
+ )
 import Control.Monad (void)
 import Data.Char (isDigit)
 import Data.Functor (($>))

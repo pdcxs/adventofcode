@@ -36,10 +36,11 @@ main = do
           year = head qs
           day = qs !! 1
           question = last qs
+          sday = if day < 10 then '0' : show day else show day
           file =
             if length args > 3 && args !! 3 == "test"
-              then "test" ++ show day ++ ".txt"
-              else "input" ++ show day ++ ".txt"
+              then "test" ++ sday ++ ".txt"
+              else "input" ++ sday ++ ".txt"
           filePath = "inputs" </> show year </> file
           delay =
             if length args > 4 && args !! 3 == "test"
