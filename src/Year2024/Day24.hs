@@ -20,7 +20,6 @@ data Expr
   | And Expr Expr
   | Or Expr Expr
   | Xor Expr Expr
-  deriving (Show, Eq)
 
 type Frame = M.Map String Expr
 
