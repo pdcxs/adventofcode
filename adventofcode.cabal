@@ -1,6 +1,6 @@
 cabal-version: 2.2
 
--- This file has been generated from package.yaml by hpack version 0.36.0.
+-- This file has been generated from package.yaml by hpack version 0.37.0.
 --
 -- see: https://github.com/sol/hpack
 
@@ -25,6 +25,8 @@ source-repository head
 library
   exposed-modules:
       AdventOfCode
+      Year2023.Day01
+      Year2023.Solutions
       Year2024.Day01
       Year2024.Day02
       Year2024.Day03
