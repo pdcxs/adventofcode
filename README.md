@@ -1,6 +1,59 @@
+# My Haskell Solutions for Advent of Code
+
+[Advent of Code](https://adventofcode.com/)
+
+Principles:
+- Strive for code readability
+- Minimize dependency on obscure libraries
+- Avoid language extensions when possible
+- Each file is self-contained
+- Optimize performance without compromising readability
+
+Build Dependencies:
+Requires `libsdl2-dev` and `libsdl2-ttf-dev`.  
+For Debian-based Linux distributions, run:
+
+```bash
+sudo apt install libsdl2-dev libsdl2-ttf-dev
+```
+
+Execution Instructions:  
+This project uses Stack for building and compilation.
+
+To run the second problem of Day 6 (2024) with input from `inputs/2024/input6.txt`:
+
+```bash
+stack run -- 2024 6 2
+```
+
+To run the first problem of Day 1 (2024) with test input from `inputs/2024/test1.txt`:
+
+```bash
+stack run -- 2024 1 1 test
+```
+
+Some solutions feature animation demonstrations:
+- Problem 1 animation corresponds to problem ID 3
+- Problem 2 animation corresponds to problem ID 4
+- Frame duration can be specified (default: 1 second per frame)
+
+Example 1: Run animation for 2024 Day 15 Problem 2 with test input (0.5s/frame):
+
+```bash
+stack run -- 2024 15 4 test 0.5
+```
+
+Example 2: Run animation for 2024 Day 15 Problem 1 with regular input (0.5s/frame):
+
+```bash
+stack run -- 2024 15 3 0.5
+```
+
+This is my [Bilibili video record](https://www.bilibili.com/video/BV1vPC5YUEQZ) of the solutions.
+
 # 我的 Advent of Code 的 Haskell 解法
 
-项目地址: https://adventofcode.com/
+[Advent of Code](https://adventofcode.com/)
 
 原则：
 
