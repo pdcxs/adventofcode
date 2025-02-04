@@ -1,87 +1,40 @@
 module Year2023.Day01 (solution1, solution2) where
 
-import Data.Char (intToDigit, isDigit, ord)
-import Data.Either (fromRight)
-import Data.Functor (($>))
-import Text.Parsec (
-  anyChar,
-  many,
-  parse,
-  string,
-  try,
-  (<|>),
- )
-import Text.Parsec.String (Parser)
+import Data.Char (isDigit)
 
-processInput :: String -> [Int]
-processInput = map extractNum . lines
+processInput :: (String -> String) -> String -> [Int]
+processInput f = map (extractNum . f) . lines
  where
   extractNum =
     read
       . (\s -> [head s, last s])
-      . filter isDigit
 
 solution1 :: String -> String
-solution1 = show . sum . processInput
+solution1 =
+  show
+    . sum
+    . processInput (filter isDigit)
 
-getNum :: String -> Int -> Parser Char
-getNum s n = try (string s) $> c
- where
-  c = intToDigit n
-
-numStrs :: [String]
-numStrs =
-  [ "one"
-  , "two"
-  , "three"
-  , "four"
-  , "five"
-  , "six"
-  , "seven"
-  , "eight"
-  , "nine"
-  ]
-
-nums :: Parser Char
-nums =
-  foldr1 (<|>) $
-    zipWith
-      getNum
-      numStrs
-      [1 .. 9]
-
-rnums :: Parser Char
-rnums =
-  foldr1 (<|>) $
-    zipWith
-      getNum
-      (map reverse numStrs)
-      [1 .. 9]
-
-parseLine :: Parser Char -> Parser String
-parseLine ns = many $ ns <|> anyChar
-
-processInput' :: String -> [Int]
-processInput' = map processLine . lines
- where
-  processLine l =
-    let
-      l1 =
-        fromRight "" $
-          parse
-            (parseLine nums)
-            ""
-            l
-      l2 =
-        fromRight "" $
-          parse
-            (parseLine rnums)
-            ""
-            (reverse l)
-     in
-      10 * firstNum l1 + firstNum l2
-  firstNum = toInt . head . filter isDigit
-  toInt c = ord c - ord '0'
+strToNum :: String -> String
+strToNum "" = ""
+strToNum ('o' : 'n' : 'e' : cs) = '1' : strToNum cs
+strToNum ('t' : 'w' : 'o' : cs) = '2' : strToNum cs
+strToNum ('t' : 'h' : 'r' : 'e' : 'e' : cs) =
+  '3' : strToNum cs
+strToNum ('f' : 'o' : 'u' : 'r' : cs) =
+  '4' : strToNum cs
+strToNum ('f' : 'i' : 'v' : 'e' : cs) =
+  '5' : strToNum cs
+strToNum ('s' : 'i' : 'x' : cs) = '6' : strToNum cs
+strToNum ('s' : 'e' : 'v' : 'e' : 'n' : cs) =
+  '7' : strToNum cs
+strToNum ('e' : 'i' : 'g' : 'h' : 't' : cs) =
+  '8' : strToNum cs
+strToNum ('n' : 'i' : 'n' : 'e' : cs) =
+  '9' : strToNum cs
+strToNum (c : cs)
+  | isDigit c = c : strToNum cs
+  | otherwise = strToNum cs
 
 solution2 :: String -> String
-solution2 = show . sum . processInput'
+solution2 = show . sum . processInput strToNum
