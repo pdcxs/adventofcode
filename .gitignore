@@ -1,4 +1,4 @@
 .stack-work/
 *~
-adventofcode.cabal
-stack.yaml.lock
+*.cabal
+*.lock
