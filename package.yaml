@@ -59,17 +59,3 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - adventofcode
-    when:
-    - condition: false
-      other-modules: Paths_adventofcode
-
-tests:
-  adventofcode-test:
-    main:                Spec.hs
-    source-dirs:         test
-    ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
-    dependencies:
-    - adventofcode
