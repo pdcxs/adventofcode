@@ -9,13 +9,6 @@ Principles:
 - Each file is self-contained
 - Optimize performance without compromising readability
 
-Build Dependencies:
-Requires `libsdl2-dev` and `libsdl2-ttf-dev`.  
-For Debian-based Linux distributions, run:
-
-```bash
-sudo apt install libsdl2-dev libsdl2-ttf-dev
-```
 
 Execution Instructions:  
 This project uses Stack for building and compilation.
@@ -35,19 +28,24 @@ stack run -- 2024 1 1 test
 Some solutions feature animation demonstrations:
 - Problem 1 animation corresponds to problem ID 3
 - Problem 2 animation corresponds to problem ID 4
-- Frame duration can be specified (default: 1 second per frame)
+- Frame per second (FPS) can be specified (default: 1 FPS)
 
-Example 1: Run animation for 2024 Day 15 Problem 2 with test input (0.5s/frame):
-
-```bash
-stack run -- 2024 15 4 test 0.5
-```
-
-Example 2: Run animation for 2024 Day 15 Problem 1 with regular input (0.5s/frame):
+Example 1: Run animation for 2024 Day 15 Problem 2 with test input (2 FPS):
 
 ```bash
-stack run -- 2024 15 3 0.5
+stack run -- 2024 15 4 test 2
 ```
+
+Example 2: Run animation for 2024 Day 15 Problem 1 with regular input (2 FPS):
+
+```bash
+stack run -- 2024 15 3 2 
+```
+
+Animation can be controlled by following keys:
+
+- Arrow keys: Move around
+- `-`/`=` key: Zoom out and Zoom in
 
 This is my [Bilibili video record](https://www.bilibili.com/video/BV1vPC5YUEQZ) of the solutions.
 
@@ -63,13 +61,6 @@ This is my [Bilibili video record](https://www.bilibili.com/video/BV1vPC5YUEQZ) 
 - 每个文件是独立的
 - 尽量在不影响可读性的前提下提高代码性能
 
-编译依赖：
-需要 `libsdl2-dev` 与 `libsdl2-ttf-dev`
-对于 `Debian` 系列的 linux 系统，可以运行以下命令进行安装：
-
-```bash
-sudo apt install libsdl2-dev libsdl2-ttf-dev
-```
 
 运行方法：
 
@@ -87,16 +78,21 @@ stack run -- 2024 6 2
 stack run -- 2024 1 1 test
 ```
 
-部分程序拥有动画演示功能，1、2题的动画演示分别对应的题目编号为3、4，此外，动画演示程序可以指定每帧多少秒，如不指定，默认为每帧1秒。例如，运行以下命令，会运行2024年第15天第二题的动画演示，每帧0.5秒，输入为测试输入：
+部分程序拥有动画演示功能，1、2题的动画演示分别对应的题目编号为3、4，此外，动画演示程序可以指定每秒多少帧(FPS)，如不指定，默认为每秒1帧。例如，运行以下命令，会运行2024年第15天第二题的动画演示，2 FPS，输入为测试输入：
 
 ```bash
-stack run -- 2024 15 4 test 0.5
+stack run -- 2024 15 4 test 2
 ```
 
-运行以下命令，会运行第15天第一道题目的动画演示，每帧0.5秒，非测试输入内容：
+运行以下命令，会运行第15天第一道题目的动画演示，2 FPS，非测试输入内容：
 
 ```bash
 stack run -- 2024 15 3 0.5
 ```
+
+动画可以用以下按键来控制：
+
+- 方向键: 移动视角
+- `-`或者`=`: 缩放视角
 
 这是我的[B站视频记录](https://www.bilibili.com/video/BV1vPC5YUEQZ)。
