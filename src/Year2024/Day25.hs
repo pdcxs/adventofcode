@@ -1,5 +1,6 @@
 module Year2024.Day25 (solution1, solution2) where
 
+import Common.Utils (safeHead)
 import Data.List (partition)
 import Data.List.Split (splitWhen)
 
@@ -11,7 +12,7 @@ processInput s =
  where
   ls = lines s
   (locks, keys) =
-    partition ((== '#') . head . head) $
+    partition ((== '#') . safeHead . safeHead) $
       splitWhen null ls
 
 getHeight :: [String] -> [Int]
@@ -19,7 +20,7 @@ getHeight ls = map count cols
  where
   cols = map (\idx -> map (!! idx) ls) [0 .. 4]
   count c =
-    if head c == '.'
+    if safeHead c == '.'
       then length (dropWhile (== '.') c) - 1
       else length (takeWhile (== '#') c) - 1
 

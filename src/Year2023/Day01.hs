@@ -1,5 +1,6 @@
 module Year2023.Day01 (solution1, solution2) where
 
+import Common.Utils (safeHead)
 import Data.Char (isDigit)
 
 processInput :: (String -> String) -> String -> [Int]
@@ -7,7 +8,7 @@ processInput f = map (extractNum . f) . lines
  where
   extractNum =
     read
-      . (\s -> [head s, last s])
+      . (\s -> [safeHead s, last s])
 
 solution1 :: String -> String
 solution1 =

@@ -1,6 +1,14 @@
 module Year2024.Day06 (solution1, solution2) where
 
-import Data.Array.Unboxed
+import Common.Utils (safeHead, safeTail)
+import Data.Array.Unboxed (
+  Array,
+  amap,
+  array,
+  assocs,
+  (!?),
+  (//),
+ )
 import Data.Containers.ListUtils (nubOrd)
 
 type Pos = (Int, Int)
@@ -11,7 +19,7 @@ processInput :: String -> Array Pos Char
 processInput s = array ((0, 0), (w - 1, h - 1)) grid
  where
   ls = lines s
-  w = length (head ls)
+  w = length (safeHead ls)
   h = length ls
   grid = getGrid 0 0 ls
   getGrid _ _ [] = []
@@ -24,7 +32,7 @@ solution1 :: String -> String
 solution1 s = show $ length $ nubOrd path
  where
   grid = processInput s
-  start = head [p | (p, '^') <- assocs grid]
+  start = safeHead [p | (p, '^') <- assocs grid]
   obs = amap (== '#') grid
   path = map fst $ walk obs start (0, -1)
 
@@ -46,9 +54,9 @@ solution2 s =
   show $ length $ filter isLoop newPaths
  where
   grid = processInput s
-  start = head [p | (p, '^') <- assocs grid]
+  start = safeHead [p | (p, '^') <- assocs grid]
   obs = amap (== '#') grid
-  path = nubOrd $ tail $ map fst $ walk obs start (0, -1)
+  path = nubOrd $ safeTail $ map fst $ walk obs start (0, -1)
   newObs = map (\p -> obs // [(p, True)]) path
   newPaths = map (\o -> walk o start (0, -1)) newObs
 

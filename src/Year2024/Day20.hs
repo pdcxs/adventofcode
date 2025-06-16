@@ -1,5 +1,6 @@
 module Year2024.Day20 (solution1, solution2) where
 
+import Common.Utils (safeHead)
 import Control.Monad (guard)
 import qualified Data.Map.Strict as M
 import qualified Data.Set as S
@@ -22,7 +23,7 @@ processInput = go S.empty [] [] 0 0
     go walls [(x, y)] end (x + 1) y ss
   go walls start _ x y ('E' : ss) =
     go walls start [(x, y)] (x + 1) y ss
-  go walls start end _ _ [] = (walls, head start, head end)
+  go walls start end _ _ [] = (walls, safeHead start, safeHead end)
   go walls start end x y (_ : ss) =
     go walls start end (x + 1) y ss
 
@@ -32,7 +33,7 @@ getPath walls start end =
  where
   next = getNext start start
   getNext prev p =
-    head
+    safeHead
       [ n
       | n <- neighbors p
       , n /= prev

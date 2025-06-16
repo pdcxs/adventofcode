@@ -1,11 +1,13 @@
 module Year2024.Day07 (solution1, solution2) where
 
+import Common.Utils (safeTail)
+
 processInput :: String -> [(Int, [Int])]
 processInput = map processLine . lines
  where
   processLine l = (target l, remains l)
   target = read . takeWhile (/= ':')
-  remains = map read . words . tail . dropWhile (/= ':')
+  remains = map read . words . safeTail . dropWhile (/= ':')
 
 type Op = Int -> Int -> Int
 

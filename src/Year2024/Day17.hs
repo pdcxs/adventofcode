@@ -4,9 +4,14 @@ module Year2024.Day17 (
   animation,
 ) where
 
-import Control.Monad
-import Control.Monad.State
-import Data.Bits
+import Common.Utils (safeHead, safeTail)
+import Control.Monad (when)
+import Control.Monad.State (
+  MonadState (get, put),
+  State,
+  execState,
+ )
+import Data.Bits (Bits (shiftR, xor, (.&.)))
 import Data.Char (isDigit)
 import Data.List.Split (splitOn)
 import qualified Data.Vector.Primitive as V
@@ -27,7 +32,7 @@ processInput s = (a, code)
  where
   ls = lines s
   regLs = take 3 ls
-  a = read $ filter isDigit $ head regLs
+  a = read $ filter isDigit $ safeHead regLs
   codeLs = dropWhile (not . isDigit) $ last ls
   code = V.fromList $ map read (splitOn "," codeLs)
 
@@ -138,7 +143,7 @@ getResult a code =
 solution1 :: String -> String
 solution1 =
   init
-    . tail
+    . safeTail
     . show
     . uncurry getResult
     . processInput

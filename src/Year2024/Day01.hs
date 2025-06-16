@@ -1,9 +1,10 @@
 module Year2024.Day01 (solution1, solution2) where
 
+import Common.Utils (safeHead)
 import Data.List (sort)
 
 processInput :: String -> ([Int], [Int])
-processInput s = (map head nums, map last nums)
+processInput s = (map safeHead nums, map last nums)
  where
   ls = lines s
   nums = map (map read . words) ls

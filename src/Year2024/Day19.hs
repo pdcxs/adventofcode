@@ -1,5 +1,6 @@
 module Year2024.Day19 (solution1, solution2) where
 
+import Common.Utils (safeHead)
 import Data.List.Split (splitOn)
 import qualified Data.Map.Strict as M
 import Data.MemoTrie (memo)
@@ -67,7 +68,7 @@ processInput s = (tree, inputs)
  where
   ls = lines s
   inputs = drop 2 ls
-  patterns = splitOn ", " (head ls)
+  patterns = splitOn ", " (safeHead ls)
   tree = getPrefixTree patterns
 
 solution1 :: String -> String

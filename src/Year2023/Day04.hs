@@ -1,5 +1,6 @@
 module Year2023.Day04 (solution1, solution2) where
 
+import Common.Utils (safeHead)
 import Data.List.Split
 import qualified Data.Map.Strict as M
 
@@ -10,7 +11,7 @@ processInput = map processLine . lines
   extractNumbers s =
     let nss = splitOn "|" s
         ns = map (map read . words) nss
-     in (head ns, last ns)
+     in (safeHead ns, last ns)
 
 getPoint :: ([Int], [Int]) -> Int
 getPoint (xs, ys)

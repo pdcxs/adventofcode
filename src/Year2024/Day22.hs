@@ -1,5 +1,6 @@
 module Year2024.Day22 (solution1, solution2) where
 
+import Common.Utils (safeTail)
 import Data.Bits (xor)
 import Data.List (foldl1', tails)
 import qualified Data.Map.Strict as M
@@ -31,7 +32,7 @@ getMap :: Int -> M.Map [Int] Int
 getMap n = go M.empty rs
  where
   ns = map (`mod` 10) $ take 2001 $ iterate next n
-  hikes = zipWith subtract (tail ns) ns
+  hikes = zipWith subtract (safeTail ns) ns
   rs = zip (drop 4 ns) (map (take 4) (tails hikes))
   go m [] = m
   go m ((x, hs) : nhs)

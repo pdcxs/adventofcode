@@ -1,5 +1,6 @@
 module Year2024.Day14 (solution1, solution2) where
 
+import Common.Utils (safeHead)
 import Data.List.Split (splitOneOf)
 import qualified Data.Set as S
 
@@ -12,7 +13,7 @@ processInput s = map (getData . getNums) ls
  where
   ls = lines s
   getNums = map read . filter (not . null) . splitOneOf "p=,v "
-  getData xs = ((head xs, xs !! 1), (xs !! 2, xs !! 3))
+  getData xs = ((safeHead xs, xs !! 1), (xs !! 2, xs !! 3))
 
 width :: Int
 -- width = 11 -- for test
@@ -74,7 +75,7 @@ printMap pos = go 0 0 []
   loc = S.fromList pos
 
 solution2 :: String -> String
-solution2 s = show time ++ "\n" ++ printMap (head r)
+solution2 s = show time ++ "\n" ++ printMap (safeHead r)
  where
   inputs = processInput s
   locs = map (\t -> map (getLoc t) inputs) [1 ..]

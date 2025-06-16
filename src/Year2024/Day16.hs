@@ -4,8 +4,9 @@ module Year2024.Day16 (
   animation1,
 ) where
 
+import Common.Utils (safeHead)
 import Data.Containers.ListUtils (nubOrd)
-import Data.List (find, foldl')
+import Data.List (find)
 import qualified Data.Map.Strict as M
 import Data.Maybe (fromJust)
 import qualified Data.Set as S
@@ -37,7 +38,7 @@ parseMap ::
   [Pos] -> -- end position
   String -> -- input string
   (Pos, Pos, Wall) -- start end walls
-parseMap _ _ walls s e [] = (head s, head e, walls)
+parseMap _ _ walls s e [] = (safeHead s, safeHead e, walls)
 parseMap _ y walls s e ('\n' : cs) =
   parseMap 0 (y + 1) walls s e cs
 parseMap x y walls _ e ('S' : cs) =

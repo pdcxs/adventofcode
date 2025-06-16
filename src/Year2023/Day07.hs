@@ -1,5 +1,6 @@
 module Year2023.Day07 (solution1, solution2) where
 
+import Common.Utils (safeHead, safeTail)
 import Data.Char (digitToInt)
 import Data.List (group, partition, sort, sortBy)
 import Data.Ord (Down (Down), comparing)
@@ -19,7 +20,7 @@ processInput = map f . lines
  where
   f ln =
     let ws = words ln
-     in ( head ws
+     in ( safeHead ws
         , read (last ws)
         )
 
@@ -31,7 +32,7 @@ handGroup =
     . sort
 
 getType :: [Int] -> Int
-getType grp = case head grp of
+getType grp = case safeHead grp of
   5 -> 7
   4 -> 6
   3 -> if grp !! 1 == 2 then 5 else 4
@@ -91,7 +92,7 @@ handToType' hd = getType rs
     if null gps
       then [l]
       else
-        (head gps + l) : tail gps
+        (safeHead gps + l) : safeTail gps
 
 solution2 :: String -> String
 solution2 = solution cmpInt' handToType'

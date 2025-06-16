@@ -1,5 +1,6 @@
 module Year2024.Day08 (solution1, solution2) where
 
+import Common.Utils (safeHead)
 import Data.Containers.ListUtils (nubOrd)
 import qualified Data.Map.Strict as M
 
@@ -12,7 +13,7 @@ processInput s = (width, height, m)
  where
   ls = lines s
   height = length ls
-  width = length (head ls)
+  width = length (safeHead ls)
   m = parseMap ls 0 0 M.empty
 
 parseMap ::

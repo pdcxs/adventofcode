@@ -1,5 +1,6 @@
 module Year2024.Day04 (solution1, solution2) where
 
+import Common.Utils (safeHead)
 import qualified Data.Vector as V
 
 type Grid = V.Vector (V.Vector Char)
@@ -79,6 +80,6 @@ isXShapedMAS grid pos@(r, c) =
     ]
   c1 = all (inGrid grid) ps
   s = map (get grid) ps
-  c2 = head s /= last s
+  c2 = safeHead s /= last s
   c3 = length (filter (== 'M') s) == 2
   c4 = length (filter (== 'S') s) == 2

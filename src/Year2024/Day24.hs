@@ -2,6 +2,7 @@
 
 module Year2024.Day24 (solution1, solution2) where
 
+import Common.Utils
 import Control.Monad.State (
   MonadState (get),
   State,
@@ -109,7 +110,7 @@ solution1 s =
  where
   frame = processInput s
   frame' = run frame
-  zs = sort $ filter ((== 'z') . head) $ M.keys frame'
+  zs = sort $ filter ((== 'z') . safeHead) $ M.keys frame'
 
 -- a full adder gate:
 -- https://en.wikipedia.org/wiki/Adder_(electronics)
@@ -145,7 +146,7 @@ getFullAdder n cin f =
   yn = 'y' : d
   zn = 'z' : d
 
-  a = fst . head $ filter (matchXor xn yn) f
+  a = fst . safeHead $ filter (matchXor xn yn) f
   xorToCin =
     if n > 0
       then
@@ -154,7 +155,7 @@ getFullAdder n cin f =
       else []
   -- exchange a to b or c when produce zn
   aerr1 =
-    if n > 0 && not (null xorToCin) && a /= head xorToCin
+    if n > 0 && not (null xorToCin) && a /= safeHead xorToCin
       then a : xorToCin
       else []
   -- exchange a to b when produce c
@@ -169,24 +170,24 @@ getFullAdder n cin f =
       else a
   zerr = [z | z /= zn]
 
-  b = fst . head $ filter (matchAnd xn yn) f
+  b = fst . safeHead $ filter (matchAnd xn yn) f
   berr = [zn | b == zn] -- changed with z
   (c, cerr')
     | n == 0 = ("", [])
     | null aerr2 =
-        (fst . head $ filter (matchAnd a cin) f, [])
+        (fst . safeHead $ filter (matchAnd a cin) f, [])
     | otherwise =
-        (fst . head $ filter (containsAnd cin) f, [b])
+        (fst . safeHead $ filter (containsAnd cin) f, [b])
   cerr = if c == zn then zn : cerr' else cerr'
   cout
     | n == 0 = b
     | null aerr2 =
         if null berr
           then
-            fst . head $ filter (containsOr b) f
+            fst . safeHead $ filter (containsOr b) f
           else
-            fst . head $ filter (containsOr c) f
-    | otherwise = fst . head $ filter (containsOr a) f
+            fst . safeHead $ filter (containsOr c) f
+    | otherwise = fst . safeHead $ filter (containsOr a) f
   couterr = [cout | cout == zn]
   cout' = if cout == zn then z else cout
 
@@ -224,7 +225,7 @@ solution2 s =
     $ go 0 ""
  where
   frame = M.assocs (processInput s)
-  n = length (head $ splitWhen null $ lines s) `div` 2
+  n = length (safeHead $ splitWhen null $ lines s) `div` 2
   go i cin =
     if i < n
       then

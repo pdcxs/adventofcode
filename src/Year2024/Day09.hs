@@ -1,5 +1,6 @@
 module Year2024.Day09 (solution1, solution2) where
 
+import Common.Utils (safeHead)
 import Data.Char (ord)
 import Data.List.Split (chunksOf)
 
@@ -25,7 +26,7 @@ processInput s = (zip files [0 ..], frees)
     chunksOf 2 $
       go 0 $
         map (\c -> ord c - ord '0') s
-  files = map head spans
+  files = map safeHead spans
   frees =
     concatMap
       (\x -> [last x | length x == 2])

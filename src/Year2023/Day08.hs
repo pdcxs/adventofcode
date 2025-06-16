@@ -7,17 +7,21 @@ import qualified Data.Map.Strict as M
 type Node = String
 type Map = M.Map Node (Node, Node)
 
+safeHead :: [a] -> a
+safeHead [] = error "empty list"
+safeHead (x : _) = x
+
 processInput :: String -> (String, Map)
 processInput s = (insts, m)
  where
   ls = lines s
-  insts = head ls
+  insts = safeHead ls
   m = M.fromList $ map extract $ drop 2 ls
   extract str =
     let nds =
           filter (not . null) $
             splitWhen (not . isAlphaNum) str
-     in (head nds, (nds !! 1, last nds))
+     in (safeHead nds, (nds !! 1, last nds))
 
 getStep :: Map -> Node -> String -> Int
 getStep m node (i : insts)
