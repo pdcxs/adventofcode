@@ -87,6 +87,5 @@ animations =
   M.fromList
     [ ((2024, 15, 3), Year2024.Day15.animation1)
     , ((2024, 15, 4), Year2024.Day15.animation2)
-    , ((2024, 16, 3), Year2024.Day16.animation1)
     , ((2024, 17, 3), Year2024.Day17.animation)
     ]

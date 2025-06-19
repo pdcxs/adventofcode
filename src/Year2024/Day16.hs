@@ -1,227 +1,138 @@
 module Year2024.Day16 (
   solution1,
   solution2,
-  animation1,
 ) where
 
 import Common.Utils (safeHead)
-import Data.Containers.ListUtils (nubOrd)
-import Data.List (find)
+import Control.Monad (guard)
 import qualified Data.Map.Strict as M
-import Data.Maybe (fromJust)
+import Data.Maybe (fromJust, isJust)
 import qualified Data.Set as S
 
 type Pos = (Int, Int)
-
 type Dir = (Int, Int)
+type State = (Dir, Pos)
 
-type State = (Pos, Dir)
-
+-- candidate search states
+-- current score, list of: current state, prev state
+type Candidate = M.Map Score [(State, [State])]
 type Score = Int
 
-type Wall = S.Set Pos
-
--- a node is (score, prev states, cur state)
-type Node = (Score, [State], State)
-
--- Current State, Current Score, Prev State
+-- state, score, prev states
 type Record = M.Map State (Score, [State])
 
-processInput :: String -> (Pos, Pos, Wall)
-processInput = parseMap 0 0 S.empty [] []
+processInput :: String -> (Pos, Pos, S.Set Pos)
+processInput = processMap 0 0 ([], [], S.empty)
 
-parseMap ::
-  Int -> -- currentX
-  Int -> -- currentY
-  Wall -> -- Wall positions
-  [Pos] -> -- start position
-  [Pos] -> -- end position
-  String -> -- input string
-  (Pos, Pos, Wall) -- start end walls
-parseMap _ _ walls s e [] = (safeHead s, safeHead e, walls)
-parseMap _ y walls s e ('\n' : cs) =
-  parseMap 0 (y + 1) walls s e cs
-parseMap x y walls _ e ('S' : cs) =
-  parseMap (x + 1) y walls [(x, y)] e cs
-parseMap x y walls s _ ('E' : cs) =
-  parseMap (x + 1) y walls s [(x, y)] cs
-parseMap x y walls s e ('#' : cs) =
-  parseMap (x + 1) y (S.insert (x, y) walls) s e cs
-parseMap x y walls s e (_ : cs) =
-  parseMap (x + 1) y walls s e cs
+processMap ::
+  Int ->
+  Int ->
+  ([Pos], [Pos], S.Set Pos) ->
+  String ->
+  (Pos, Pos, S.Set Pos)
+processMap _ _ (s, e, ps) [] = (safeHead s, safeHead e, ps)
+processMap _ y (s, e, ps) ('\n' : ss) =
+  processMap 0 (y + 1) (s, e, ps) ss
+processMap x y (s, e, ps) ('.' : ss) =
+  processMap (x + 1) y (s, e, S.insert (x, y) ps) ss
+processMap x y (_, e, ps) ('S' : ss) =
+  let loc = (x, y)
+   in processMap (x + 1) y ([loc], e, S.insert loc ps) ss
+processMap x y (s, _, ps) ('E' : ss) =
+  let loc = (x, y)
+   in processMap (x + 1) y (s, [loc], S.insert loc ps) ss
+processMap x y (s, e, ps) (_ : ss) =
+  processMap (x + 1) y (s, e, ps) ss
 
-search ::
-  Wall -> -- walls
-  Pos -> -- end position
-  Record -> -- recorded states and scores
-  -- candidates (score, prev state, cur state)
-  [Node] ->
-  Record -- final records
-search walls end record candidates
-  | null candidates = record -- this should not be happend
-  | fst nextState == end = record' -- finish
-  | otherwise =
-      -- trace (show candidates) $
-      search walls end record' candidates'
+search :: S.Set Pos -> Candidate -> Record -> Record
+search ps candidate rcd
+  | M.null candidate = rcd
+  | otherwise = search ps candidate'' rcd'
  where
-  ((nextScore, nextPrev, nextState), css) = getMin candidates
-  record' = M.insertWith merge nextState (nextScore, nextPrev) record
-  merge (oldScore, oldPrevs) (newScore, newPrevs)
-    | oldScore < newScore = (oldScore, oldPrevs)
-    | oldScore > newScore = (newScore, newPrevs)
-    | otherwise = (oldScore, nubOrd $ newPrevs ++ oldPrevs)
-  cs =
-    filter
-      ( \(sc, _, st@(p, _)) ->
-          p `S.notMember` walls
-            && better st sc
-      )
-      $ nextCandidates nextScore nextState
-  candidates' = mergeSts cs css
-  better st sc = case (M.!?) record st of
+  ((score, (st, prv)), candidate') = getNext candidate
+  candidate'' = M.unionWith (++) (nextStates ps score st rcd) candidate'
+  rcd' = updateRecord score st prv rcd
+
+getNext :: Candidate -> ((Score, (State, [State])), Candidate)
+getNext candidate = ((sc, (cur, prvs)), candidate')
+ where
+  (sc, states) = M.findMin candidate
+  (cur, prvs) = safeHead states
+  states' = drop 1 states
+  candidate' =
+    if null states'
+      then
+        M.delete sc candidate
+      else M.insert sc states' candidate
+
+nextStates :: S.Set Pos -> Score -> State -> Record -> Candidate
+nextStates ps score st@((dx, dy), (x, y)) rcd =
+  M.fromListWith
+    (++)
+    [ (score', [(((dx', dy'), (x', y')), [st])])
+    | (score', (dx', dy'), (x', y')) <-
+        [ (score + 1, (dx, dy), (x + dx, y + dy))
+        , (score + 1000, (dy, -dx), (x, y))
+        , (score + 1000, (-dy, dx), (x, y))
+        ]
+    , (x', y') `S.member` ps
+    , notInOrBetter score ((dx', dy'), (x', y')) rcd
+    ]
+
+notInOrBetter :: Score -> State -> Record -> Bool
+notInOrBetter score st rcd =
+  case M.lookup st rcd of
     Nothing -> True
-    Just (sc', _) -> sc <= sc'
+    Just (s, _) -> score <= s
 
-nextCandidates :: Score -> State -> [Node]
-nextCandidates score st@(pos@(x, y), dir@(dx, dy)) =
-  [ (score + 1, [st], ((x + dx, y + dy), dir))
-  , (score + 1000, [st], (pos, (-dy, dx)))
-  , (score + 1000, [st], (pos, (dy, -dx)))
-  ]
+updateRecord :: Score -> State -> [State] -> Record -> Record
+updateRecord score st prev rcd =
+  case M.lookup st rcd of
+    Nothing -> M.insert st (score, prev) rcd
+    Just (s, prevs) ->
+      if score <= s
+        then M.insert st (score, prev ++ prevs) rcd
+        else rcd
 
-getMin :: [Node] -> (Node, [Node])
-getMin (x : xs) = foldl' go (x, []) xs
+allDirs :: [Dir]
+allDirs = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+
+findMinScore :: Pos -> Record -> Int
+findMinScore end rcd = minimum $ do
+  dir <- allDirs
+  let r = rcd M.!? (dir, end)
+  guard (isJust r)
+  return $ fst $ fromJust r
+
+findPositionCount :: Pos -> Record -> Int
+findPositionCount end rcd =
+  S.size $
+    S.map snd $
+      findPath (zip allDirs (repeat end)) rcd S.empty
+
+findPath :: [State] -> Record -> S.Set State -> S.Set State
+findPath [] _ sts = sts
+findPath (x : xs) rcd sts =
+  case rcd M.!? x of
+    Nothing -> findPath xs rcd sts
+    Just (_, prevs) ->
+      findPath
+        ( filter
+            (`S.notMember` sts)
+            prevs
+            ++ xs
+        )
+        rcd
+        (S.insert x sts)
+
+getRecord :: String -> (Pos, Record)
+getRecord s = (end, search ps initialCandidate M.empty)
  where
-  go (minX@(minScore, _, stx), others) y@(ySc, _, sty)
-    | ySc <= minScore = (y, minX : others)
-    | stx == sty = (minX, others)
-    | otherwise = (minX, y : others)
-getMin [] = undefined
+  (start, end, ps) = processInput s
+  initialCandidate = M.fromList [(0, [(((1, 0), start), [])])]
 
 solution1 :: String -> String
-solution1 s = show . fst $ (M.!) records st
- where
-  (start, end, walls) = processInput s
-  initState = (start, (1, 0))
-  initCandidates = nextCandidates 0 initState
-  initRecord = M.singleton initState (0, [])
-  records = search walls end initRecord initCandidates
-  st = fromJust $ find ((== end) . fst) $ M.keys records
+solution1 = show . uncurry findMinScore . getRecord
 
 solution2 :: String -> String
-solution2 s = show . length . nubOrd $ go st
- where
-  (start, end, walls) = processInput s
-  initState = (start, (1, 0))
-  initCandidates = nextCandidates 0 initState
-  initRecord = M.singleton initState (0, [])
-  records = search walls end initRecord initCandidates
-  st = fromJust $ find ((== end) . fst) $ M.keys records
-  go k = case (M.!) records k of
-    (_, []) -> []
-    (_, ps) -> fst k : concatMap go ps
-
-searchAnim ::
-  Wall -> -- walls
-  Pos -> -- end position
-  Record -> -- recorded states and scores
-  -- candidates (score, prev state, cur state)
-  [Node] ->
-  [String]
-searchAnim walls end record candidates
-  | null candidates = [currentMap] -- this should not be happend
-  | fst nextState == end = [currentMap]
-  | otherwise = currentMap : searchAnim walls end record' candidates'
- where
-  ((nextScore, nextPrev, nextState), css) = getMin candidates
-  record' = M.insertWith merge nextState (nextScore, nextPrev) record
-  merge (oldScore, oldPrevs) (newScore, newPrevs)
-    | oldScore < newScore = (oldScore, oldPrevs)
-    | oldScore > newScore = (newScore, newPrevs)
-    | otherwise = (oldScore, nubOrd $ newPrevs ++ oldPrevs)
-  cs =
-    filter
-      ( \(sc, _, st@(p, _)) ->
-          p `S.notMember` walls
-            && better st sc
-      )
-      $ nextCandidates nextScore nextState
-  candidates' = mergeSts cs css
-  better st sc = case (M.!?) record st of
-    Nothing -> True
-    Just (sc', _) -> sc <= sc'
-  currentMap = printMap walls end record candidates
-
-mergeSts :: [Node] -> [Node] -> [Node]
-mergeSts [] ys = ys
-mergeSts (x@(scx, prevX, stx) : xs) ys =
-  case findSt stx ys of
-    Nothing -> x : mergeSts xs ys
-    Just ((sc, prevY, _), ys') ->
-      if scx < sc
-        then x : mergeSts xs ys'
-        else
-          if scx > sc
-            then mergeSts xs ys
-            else
-              (sc, nubOrd (prevX ++ prevY), stx)
-                : mergeSts xs ys'
-
-findSt ::
-  State ->
-  [(Score, [State], State)] ->
-  Maybe
-    ( (Score, [State], State)
-    , [(Score, [State], State)]
-    )
-findSt _ [] = Nothing
-findSt stx (y@(_, _, sty) : ys) =
-  if stx == sty
-    then Just (y, ys)
-    else case findSt stx ys of
-      Nothing -> Nothing
-      Just (y', ys') -> Just (y', y : ys')
-
-printMap ::
-  Wall -> -- walls
-  Pos -> -- end pos
-  Record -> -- Current Records
-  [Node] ->
-  String
-printMap walls end record candidates =
-  go 0 0
- where
-  height = maximum $ S.map snd walls
-  width = maximum $ S.map fst walls
-  go x y
-    | x > width = '\n' : go 0 (y + 1)
-    | (x, y) `S.member` walls = '#' : go (x + 1) y
-    | (x, y) == nextPos = dirChar nextDir : go (x + 1) y
-    | inCandidates && inRecord = 'X' : go (x + 1) y
-    | inCandidates = '?' : go (x + 1) y
-    | inRecord = 'O' : go (x + 1) y
-    | (x, y) == end = 'E' : go (x + 1) y
-    | y > height = []
-    | otherwise = '.' : go (x + 1) y
-   where
-    inCandidates =
-      any
-        (\(_, _, (p, _)) -> p == (x, y))
-        candidates
-    inRecord = any ((== (x, y)) . fst) (M.keys record)
-    (next, _) = getMin candidates
-    (nextPos, nextDir) = third next
-    third (_, _, v) = v
-    dirChar (1, 0) = '>'
-    dirChar (-1, 0) = '<'
-    dirChar (0, 1) = 'v'
-    dirChar (0, -1) = '^'
-    dirChar _ = undefined
-
-animation1 :: String -> [String]
-animation1 s = searchAnim walls end initRecord initCandidates
- where
-  (start, end, walls) = processInput s
-  initState = (start, (1, 0))
-  initCandidates = nextCandidates 0 initState
-  initRecord = M.singleton initState (0, [])
+solution2 = show . uncurry findPositionCount . getRecord
