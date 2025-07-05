@@ -11,7 +11,7 @@ processInput = V.fromList . map V.fromList . lines
 
 inGrid :: Grid -> Pos -> Bool
 inGrid grid (r, c) =
-  r >= 0 && r < height && c >= 0 && c < width
+ r >= 0 && r < height && c >= 0 && c < width
  where
   (width, height) = getSize grid
 
@@ -39,44 +39,44 @@ get grid (r, c) = grid V.! r V.! c
 
 solution1 :: String -> String
 solution1 s =
-  show $
-    sum $
-      [ posStrCount grid (r, c)
-      | r <- [0 .. height - 1]
-      , c <- [0 .. width - 1]
-      ]
+ show $
+  sum $
+   [ posStrCount grid (r, c)
+   | r <- [0 .. height - 1]
+   , c <- [0 .. width - 1]
+   ]
  where
   grid = processInput s
   (width, height) = getSize grid
 
 solution2 :: String -> String
 solution2 s =
-  show $
-    length $
-      filter
-        (isXShapedMAS grid)
-        [ (r, c)
-        | r <- [0 .. height - 1]
-        , c <- [0 .. width - 1]
-        ]
+ show $
+  length $
+   filter
+    (isXShapedMAS grid)
+    [ (r, c)
+    | r <- [0 .. height - 1]
+    , c <- [0 .. width - 1]
+    ]
  where
   grid = processInput s
   (width, height) = getSize grid
 
 isXShapedMAS :: Grid -> Pos -> Bool
 isXShapedMAS grid pos@(r, c) =
-  get grid pos == 'A'
-    && c1
-    && c2
-    && c3
-    && c4
+ get grid pos == 'A'
+  && c1
+  && c2
+  && c3
+  && c4
  where
   ps =
-    [ (r - 1, c - 1)
-    , (r + 1, c - 1)
-    , (r - 1, c + 1)
-    , (r + 1, c + 1)
-    ]
+   [ (r - 1, c - 1)
+   , (r + 1, c - 1)
+   , (r - 1, c + 1)
+   , (r + 1, c + 1)
+   ]
   c1 = all (inGrid grid) ps
   s = map (get grid) ps
   c2 = head s /= last s

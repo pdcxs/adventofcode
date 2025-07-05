@@ -18,17 +18,17 @@ processInput s = (insts, m)
   insts = safeHead ls
   m = M.fromList $ map extract $ drop 2 ls
   extract str =
-    let nds =
-          filter (not . null) $
-            splitWhen (not . isAlphaNum) str
-     in (safeHead nds, (nds !! 1, last nds))
+   let nds =
+        filter (not . null) $
+         splitWhen (not . isAlphaNum) str
+    in (safeHead nds, (nds !! 1, last nds))
 
 getStep :: Map -> Node -> String -> Int
 getStep m node (i : insts)
-  | node == "ZZZ" = 0
-  | i == 'L' = 1 + getStep m l insts
-  | i == 'R' = 1 + getStep m r insts
-  | otherwise = undefined
+ | node == "ZZZ" = 0
+ | i == 'L' = 1 + getStep m l insts
+ | i == 'R' = 1 + getStep m r insts
+ | otherwise = undefined
  where
   (l, r) = m M.! node
 getStep _ _ [] = undefined
@@ -40,25 +40,25 @@ solution1 s = show $ getStep m "AAA" (cycle insts)
 
 getRound :: Map -> String -> Node -> Int
 getRound m insts node
-  | last node == 'Z' = 0
-  | otherwise = 1 + getRound m insts node'
+ | last node == 'Z' = 0
+ | otherwise = 1 + getRound m insts node'
  where
   node' = step node insts
   step n [] = n
   step n (i : is) =
-    let (l, r) = m M.! n
-     in if i == 'L'
-          then step l is
-          else step r is
+   let (l, r) = m M.! n
+    in if i == 'L'
+        then step l is
+        else step r is
 
 solution2 :: String -> String
 solution2 s = show (length insts * minRnd)
  where
   (insts, m) = processInput s
   starts =
-    [ node
-    | node <- M.keys m
-    , last node == 'A'
-    ]
+   [ node
+   | node <- M.keys m
+   , last node == 'A'
+   ]
   rnds = map (getRound m insts) starts
   minRnd = foldr1 lcm rnds

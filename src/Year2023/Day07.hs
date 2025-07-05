@@ -18,56 +18,56 @@ processInput :: String -> [(Hand, Int)]
 processInput = map f . lines
  where
   f ln =
-    let ws = words ln
-     in ( head ws
-        , read (last ws)
-        )
+   let ws = words ln
+    in ( head ws
+       , read (last ws)
+       )
 
 handGroup :: [Int] -> [Int]
 handGroup =
-  sortBy (comparing Down)
-    . map length
-    . group
-    . sort
+ sortBy (comparing Down)
+  . map length
+  . group
+  . sort
 
 getType :: [Int] -> Int
 getType grp = case head grp of
-  5 -> 7
-  4 -> 6
-  3 -> if grp !! 1 == 2 then 5 else 4
-  2 -> if grp !! 1 == 2 then 3 else 2
-  1 -> 1
-  _ -> undefined
+ 5 -> 7
+ 4 -> 6
+ 3 -> if grp !! 1 == 2 then 5 else 4
+ 2 -> if grp !! 1 == 2 then 3 else 2
+ 1 -> 1
+ _ -> undefined
 
 handToType :: Hand -> Int
 handToType =
-  getType
-    . handGroup
-    . map cmpInt
+ getType
+  . handGroup
+  . map cmpInt
 
 solution ::
-  (Char -> Int) ->
-  (Hand -> Int) ->
-  String ->
-  String
+ (Char -> Int) ->
+ (Hand -> Int) ->
+ String ->
+ String
 solution cmpFunc typeFunc s =
-  show $ sum prds
+ show $ sum prds
  where
   ins = processInput s
   rs =
-    sort
-      ( map
-          ( \(hd, bid) ->
-              ( typeFunc hd
-              , map cmpFunc hd
-              , bid
-              )
+   sort
+    ( map
+       ( \(hd, bid) ->
+          ( typeFunc hd
+          , map cmpFunc hd
+          , bid
           )
-          ins
-      )
+       )
+       ins
+    )
   r =
-    zip [1 ..] $
-      map (\(_, _, bid) -> bid) rs
+   zip [1 ..] $
+    map (\(_, _, bid) -> bid) rs
   prds = map (uncurry (*)) r
 
 solution1 :: String -> String
@@ -88,10 +88,10 @@ handToType' hd = getType rs
   l = length js
   gps = handGroup (map cmpInt' cs)
   rs =
-    if null gps
-      then [l]
-      else
-        (head gps + l) : tail gps
+   if null gps
+    then [l]
+    else
+     (head gps + l) : tail gps
 
 solution2 :: String -> String
 solution2 = solution cmpInt' handToType'

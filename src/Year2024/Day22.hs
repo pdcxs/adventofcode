@@ -22,10 +22,10 @@ ntimes n = (!! n) . iterate next
 
 solution1 :: String -> String
 solution1 =
-  show
-    . sum
-    . map (ntimes 2000)
-    . processInput
+ show
+  . sum
+  . map (ntimes 2000)
+  . processInput
 
 getMap :: Int -> M.Map [Int] Int
 getMap n = go M.empty rs
@@ -35,13 +35,13 @@ getMap n = go M.empty rs
   rs = zip (drop 4 ns) (map (take 4) (tails hikes))
   go m [] = m
   go m ((x, hs) : nhs)
-    | hs `M.member` m = go m nhs
-    | otherwise = go (M.insert hs x m) nhs
+   | hs `M.member` m = go m nhs
+   | otherwise = go (M.insert hs x m) nhs
 
 solution2 :: String -> String
 solution2 =
-  show
-    . maximum
-    . foldl1' (M.unionWith (+))
-    . map getMap
-    . processInput
+ show
+  . maximum
+  . foldl1' (M.unionWith (+))
+  . map getMap
+  . processInput

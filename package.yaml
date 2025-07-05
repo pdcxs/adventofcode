@@ -46,6 +46,10 @@ ghc-options:
   - -Wredundant-constraints
   - -Wno-x-partial
 
+default-extensions:
+ - TupleSections
+ - LambdaCase
+
 library:
   source-dirs: src
 

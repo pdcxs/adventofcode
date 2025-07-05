@@ -16,10 +16,10 @@ solution1 s = show $ sum $ map abs sl
 
 solution2 :: String -> String
 solution2 s =
-  show $
-    sum $
-      zipWith (*) lst1 $
-        map (count lst2) lst1
+ show $
+  sum $
+   zipWith (*) lst1 $
+    map (count lst2) lst1
  where
   (lst1, lst2) = processInput s
 

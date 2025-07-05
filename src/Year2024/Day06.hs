@@ -1,12 +1,12 @@
 module Year2024.Day06 (solution1, solution2) where
 
 import Data.Array.Unboxed (
-  Array,
-  amap,
-  array,
-  assocs,
-  (!?),
-  (//),
+ Array,
+ amap,
+ array,
+ assocs,
+ (!?),
+ (//),
  )
 import Data.Containers.ListUtils (nubOrd)
 
@@ -24,8 +24,8 @@ processInput s = array ((0, 0), (w - 1, h - 1)) grid
   getGrid _ _ [] = []
   getGrid _ y ([] : css) = getGrid 0 (y + 1) css
   getGrid x y ((c : cs) : css) =
-    ((x, y), c)
-      : getGrid (x + 1) y (cs : css)
+   ((x, y), c)
+    : getGrid (x + 1) y (cs : css)
 
 solution1 :: String -> String
 solution1 s = show $ length $ nubOrd path
@@ -37,11 +37,11 @@ solution1 s = show $ length $ nubOrd path
 
 walk :: Array (Int, Int) Bool -> Pos -> Dir -> [(Pos, Dir)]
 walk obs pos@(x, y) dir@(dx, dy) =
-  (pos, dir)
-    : case obs !? np of
-      Nothing -> []
-      Just True -> walk obs pos (turnRight dir)
-      Just False -> walk obs np dir
+ (pos, dir)
+  : case obs !? np of
+   Nothing -> []
+   Just True -> walk obs pos (turnRight dir)
+   Just False -> walk obs np dir
  where
   np = (x + dx, y + dy)
 
@@ -50,7 +50,7 @@ turnRight (dx, dy) = (-dy, dx)
 
 solution2 :: String -> String
 solution2 s =
-  show $ length $ filter isLoop newPaths
+ show $ length $ filter isLoop newPaths
  where
   grid = processInput s
   start = head [p | (p, '^') <- assocs grid]

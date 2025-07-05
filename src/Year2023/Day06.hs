@@ -28,14 +28,14 @@ isRound x = abs (r - x) < 1e-5
 
 solution1 :: String -> String
 solution1 =
-  show
-    . product
-    . map solve
-    . processInput
+ show
+  . product
+  . map solve
+  . processInput
 
 processInput' :: String -> (Double, Double)
 processInput' s =
-  (getNum (head ls), getNum (last ls))
+ (getNum (head ls), getNum (last ls))
  where
   ls = lines s
   getNum = read . filter isDigit

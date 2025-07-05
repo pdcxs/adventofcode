@@ -12,26 +12,26 @@ transpose :: [String] -> [String]
 transpose [] = []
 transpose ss@([] : _) = ss
 transpose ss =
-  map fst ls
-    : transpose (map snd ls)
+ map fst ls
+  : transpose (map snd ls)
  where
   ls = map (fromJust . uncons) ss
 
 isMissMirror :: [String] -> Int -> Int -> Bool
 isMissMirror ss dist n =
-  sum (map abs loss) == dist
+ sum (map abs loss) == dist
  where
   splits = map (splitAt n) ss
   lefts = map (map ord . reverse . fst) splits
   rights = map (map ord . snd) splits
   loss =
-    concatMap
-      (uncurry $ zipWith subtract)
-      (zip lefts rights)
+   concatMap
+    (uncurry $ zipWith subtract)
+    (zip lefts rights)
 
 solve :: Int -> [String] -> Int
 solve dist cs =
-  sum xs + sum (map (* 100) ys)
+ sum xs + sum (map (* 100) ys)
  where
   cn = length (head cs)
   rs = transpose cs
@@ -44,7 +44,7 @@ solution1 = show . sum . map (solve 0) . processInput
 
 solution2 :: String -> String
 solution2 =
-  show
-    . sum
-    . map (solve $ ord '.' - ord '#')
-    . processInput
+ show
+  . sum
+  . map (solve $ ord '.' - ord '#')
+  . processInput

@@ -4,83 +4,81 @@ import Data.Char (ord)
 import Data.List.Split (chunksOf)
 
 type Loc = Int
-
 type Id = Int
-
 type Size = Int
-
 type Span = (Loc, Size)
-
 type File = (Span, Id)
 
 processInput :: String -> ([File], [Span])
 processInput s = (zip files [0 ..], frees)
  where
   go loc (size : ss) =
-    getSpan loc size
-      : go (loc + size) ss
+   getSpan loc size
+    : go (loc + size) ss
   go _ [] = []
   getSpan loc size = (loc, size)
   spans =
-    chunksOf 2 $
-      go 0 $
-        map (\c -> ord c - ord '0') s
+   chunksOf 2 $
+    go 0 $
+     map (\c -> ord c - ord '0') s
   files = map head spans
   frees =
-    concatMap
-      (\x -> [last x | length x == 2])
-      spans
+   concatMap
+    (\x -> [last x | length x == 2])
+    spans
 
 -- process a file
 -- get new files and new free spaces
 update :: File -> [Span] -> ([File], [Span])
 update _ [] =
-  error "no enough free space"
-update file@((fileLoc, fileSize), fileId) frees@((freeLoc, freeSize) : fs)
+ error "no enough free space"
+update
+ file@((fileLoc, fileSize), fileId)
+ frees@((freeLoc, freeSize) : fs)
   | fileLoc <= freeLoc = ([file], frees) -- don't move this
   | fileSize <= freeSize =
-      ( [((freeLoc, fileSize), fileId)]
-      , [ (freeLoc + fileSize, freeSize - fileSize)
-        | freeSize > fileSize
-        ]
-          ++ fs
-      )
+    ( [((freeLoc, fileSize), fileId)]
+    , [ (freeLoc + fileSize, freeSize - fileSize)
+      | freeSize > fileSize
+      ]
+       ++ fs
+    )
   | otherwise =
-      let (files', frees') = update file2 fs
-       in (file1 : files', frees')
- where
-  file1 = ((freeLoc, freeSize), fileId)
-  file2 = ((fileLoc, fileSize - freeSize), fileId)
+    let (files', frees') = update file2 fs
+     in (file1 : files', frees')
+  where
+   file1 = ((freeLoc, freeSize), fileId)
+   file2 = ((fileLoc, fileSize - freeSize), fileId)
 
 solution1 :: String -> String
 solution1 s =
-  show $ getCheckSums sortedFiles
+ show $ getCheckSums sortedFiles
  where
   (files, frees) = processInput s
   go [] frs = ([], frs)
   go (f : fs) frs =
-    let (f', frees') = go fs frs
-        (newFile, newFree) = update f frees'
-     in (newFile ++ f', newFree)
+   let (f', frees') = go fs frs
+       (newFile, newFree) = update f frees'
+    in (newFile ++ f', newFree)
   (sortedFiles, _) = go files frees
 
 getCheckSum :: File -> Int
 getCheckSum ((loc, size), fileId) =
-  sum $ take size $ map (* fileId) [loc ..]
+ sum $ take size $ map (* fileId) [loc ..]
 
 getCheckSums :: [File] -> Int
 getCheckSums = sum . map getCheckSum
 
 solution2 :: String -> String
 solution2 s =
-  show $ getCheckSums sortedFiles
+ show $ getCheckSums sortedFiles
  where
   (files, frees) = processInput s
   go [] frs = ([], frs)
   go (f : fs) frs =
-    let (f', frees') = go fs frs
-        (newFile, newFree) = update' f frees'
-     in (newFile : f', newFree)
+   let (f', frees') = go fs frs
+       (newFile, newFree) = update' f frees'
+    in (newFile : f', newFree)
   (sortedFiles, _) = go files frees
 
 -- even simpler than first question
@@ -88,21 +86,21 @@ solution2 s =
 -- get new file and new free spaces
 update' :: File -> [Span] -> (File, [Span])
 update' _ [] =
-  error "no enough free space"
+ error "no enough free space"
 update'
-  file@((fileLoc, fileSize), fileId)
-  frees@(fr@(freeLoc, freeSize) : fs)
-    | fileLoc <= freeLoc =
-        (file, frees) -- don't move this
-    | fileSize > freeSize =
-        let (newFile, newFrees) = update' file fs
-         in (newFile, fr : newFrees)
-    | otherwise =
-        ( ((freeLoc, fileSize), fileId)
-        , newFree ++ fs
-        )
-   where
-    newFree =
-      [ (freeLoc + fileSize, freeSize - fileSize)
-      | freeSize > fileSize
-      ]
+ file@((fileLoc, fileSize), fileId)
+ frees@(fr@(freeLoc, freeSize) : fs)
+  | fileLoc <= freeLoc =
+    (file, frees) -- don't move this
+  | fileSize > freeSize =
+    let (newFile, newFrees) = update' file fs
+     in (newFile, fr : newFrees)
+  | otherwise =
+    ( ((freeLoc, fileSize), fileId)
+    , newFree ++ fs
+    )
+  where
+   newFree =
+    [ (freeLoc + fileSize, freeSize - fileSize)
+    | freeSize > fileSize
+    ]

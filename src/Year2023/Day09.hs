@@ -7,11 +7,11 @@ step :: [Int] -> [Int]
 step [] = [0]
 step [x] = [x, x]
 step xs
-  | all (== 0) xs = 0 : xs
-  | otherwise =
-      (head xs - head next)
-        : xs
-        ++ [last xs + last next]
+ | all (== 0) xs = 0 : xs
+ | otherwise =
+   (head xs - head next)
+    : xs
+    ++ [last xs + last next]
  where
   next = step $ zipWith subtract xs (tail xs)
 
