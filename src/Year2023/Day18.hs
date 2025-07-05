@@ -1,6 +1,5 @@
 module Year2023.Day18 (solution1, solution2) where
 
-import Common.Utils (safeHead)
 import Data.Text.Internal.Read (hexDigitToInt)
 
 type Pos = (Int, Int)
@@ -12,7 +11,7 @@ processInput s = map procLine (lines s)
  where
   procLine ln =
     let xs = words ln
-        d = safeHead xs
+        d = head xs
         step = xs !! 1
         color = xs !! 2
      in (getDir d, read step, init $ drop 2 color)

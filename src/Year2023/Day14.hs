@@ -1,6 +1,5 @@
 module Year2023.Day14 (solution1, solution2) where
 
-import Common.Utils (safeHead)
 import Data.List (elemIndex, sortBy)
 import qualified Data.Map as M
 import Data.Maybe (fromJust)
@@ -24,7 +23,7 @@ processInput s =
   (width, height, ps, rows, cols)
  where
   ls = lines s
-  width = length (safeHead ls)
+  width = length (head ls)
   height = length ls
   (ps, rows, cols) =
     parseMap 0 0 [] M.empty M.empty s
@@ -121,7 +120,7 @@ solution2 s = show $ getAnswer height $ ps' !! idx
   ps' = cycleTilt width height rows cols sps
   cycles = getLoop ps'
   n = getLoopSize cycles
-  preLen = fromJust $ elemIndex (safeHead cycles) ps'
+  preLen = fromJust $ elemIndex (head cycles) ps'
   idx = preLen + ((1000000000 - preLen - 1) `mod` n)
 
 cycleTilt ::

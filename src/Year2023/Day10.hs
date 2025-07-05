@@ -1,6 +1,5 @@
 module Year2023.Day10 (solution1, solution2) where
 
-import Common.Utils (safeHead)
 import Control.Monad (guard)
 import qualified Data.Map.Strict as M
 import Data.Maybe (fromJust, isJust)
@@ -57,7 +56,7 @@ getPipe _ _ _ = M.empty
 search :: Map -> Pos -> Pos -> [Pos] -> [Pos]
 search m start ps visited
   | null ps' = visited'
-  | otherwise = search m start (safeHead ps') visited'
+  | otherwise = search m start (head ps') visited'
  where
   ps' = nextPos m start visited ps
   visited' = ps : visited
@@ -65,7 +64,7 @@ search m start ps visited
 nextPos :: Map -> Pos -> [Pos] -> Pos -> [Pos]
 nextPos m start visited p@(x, y) = do
   neighbor <- [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]
-  let v = if null visited then [start] else [safeHead visited, start]
+  let v = if null visited then [start] else [head visited, start]
   guard (neighbor `notElem` v)
   let r = M.lookup neighbor m
   guard (isJust r)

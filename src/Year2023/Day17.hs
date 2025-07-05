@@ -1,6 +1,5 @@
 module Year2023.Day17 (solution1, solution2) where
 
-import Common.Utils (safeHead)
 import Data.Char (digitToInt)
 import qualified Data.Map.Strict as M
 import qualified Data.Set as S
@@ -16,7 +15,7 @@ processInput :: String -> (Int, Int, Map)
 processInput s = (w, h, m)
  where
   ls = lines s
-  w = length (safeHead ls)
+  w = length (head ls)
   h = length ls
   m = parseMap 0 0 M.empty s
 

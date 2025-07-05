@@ -1,6 +1,5 @@
 module Year2023.Day03 (solution1, solution2) where
 
-import Common.Utils (safeHead)
 import Control.Monad (guard)
 import Data.Char (isDigit)
 import Data.Containers.ListUtils (nubOrd)
@@ -47,7 +46,7 @@ gearNums m =
   M.fromListWith (++)
     . map
       ( \(c, i) ->
-          (safeHead c, [read $ reverse i])
+          (head c, [read $ reverse i])
       )
     . filter (not . null . fst)
     $ zip gears ints

@@ -1,7 +1,6 @@
 module Main (main) where
 
 import AdventOfCode (animations, solutions)
-import Common.Utils (safeHead)
 import qualified Data.Map as M
 import Data.Maybe (fromMaybe)
 import Linear (V2 (V2))
@@ -64,7 +63,7 @@ getTimeQuestion :: [String] -> (Int, Int, Int)
 getTimeQuestion args = (year, day, question)
  where
   qs = map read $ take 3 args
-  year = safeHead qs
+  year = head qs
   day = qs !! 1
   question = last qs
 
@@ -120,8 +119,8 @@ printHelp = do
 animation :: [String] -> Int -> String -> IO ()
 animation ss fps title = do
   setTargetFPS 60
-  let ls = lines (safeHead ss)
-      width = length (safeHead ls)
+  let ls = lines (head ss)
+      width = length (head ls)
       height = length ls
       w = fromIntegral (width * fontSize) * 0.54 :: Double
       h = fromIntegral (height * fontSize) * 1.13 :: Double

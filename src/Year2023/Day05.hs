@@ -1,6 +1,5 @@
 module Year2023.Day05 (solution1, solution2) where
 
-import Common.Utils (safeHead, safeTail)
 import Data.Containers.ListUtils (nubOrd)
 import Data.List.Split (splitWhen)
 
@@ -10,10 +9,10 @@ processInput ::
 processInput s = (seeds, nums)
  where
   ls = lines s
-  seeds = map read . safeTail . words $ safeHead ls
-  maps = map safeTail . splitWhen null $ drop 2 ls
+  seeds = map read . tail . words $ head ls
+  maps = map tail . splitWhen null $ drop 2 ls
   getNum =
-    (\xs -> (safeHead xs, xs !! 1, last xs))
+    (\xs -> (head xs, xs !! 1, last xs))
       . map read
       . words
   nums = map (map getNum) maps

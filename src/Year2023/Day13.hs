@@ -1,6 +1,5 @@
 module Year2023.Day13 (solution1, solution2) where
 
-import Common.Utils (safeHead)
 import Data.Char (ord)
 import Data.List (uncons)
 import Data.List.Split (splitWhen)
@@ -34,7 +33,7 @@ solve :: Int -> [String] -> Int
 solve dist cs =
   sum xs + sum (map (* 100) ys)
  where
-  cn = length (safeHead cs)
+  cn = length (head cs)
   rs = transpose cs
   rn = length cs
   xs = filter (isMissMirror cs dist) [1 .. cn - 1]

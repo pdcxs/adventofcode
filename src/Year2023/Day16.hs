@@ -1,6 +1,5 @@
 module Year2023.Day16 (solution1, solution2) where
 
-import Common.Utils (safeHead)
 import qualified Data.Map.Strict as M
 import qualified Data.Set as S
 
@@ -15,7 +14,7 @@ processInput s = (width, height, m)
  where
   m = parseMap 0 0 M.empty s
   ls = lines s
-  width = length (safeHead ls)
+  width = length (head ls)
   height = length ls
 
 parseMap :: Coord -> Coord -> Map -> String -> Map

@@ -4,7 +4,6 @@ module Year2024.Day17 (
   animation,
 ) where
 
-import Common.Utils (safeHead, safeTail)
 import Control.Monad (when)
 import Control.Monad.State (
   MonadState (get, put),
@@ -32,7 +31,7 @@ processInput s = (a, code)
  where
   ls = lines s
   regLs = take 3 ls
-  a = read $ filter isDigit $ safeHead regLs
+  a = read $ filter isDigit $ head regLs
   codeLs = dropWhile (not . isDigit) $ last ls
   code = V.fromList $ map read (splitOn "," codeLs)
 
@@ -143,7 +142,7 @@ getResult a code =
 solution1 :: String -> String
 solution1 =
   init
-    . safeTail
+    . tail
     . show
     . uncurry getResult
     . processInput

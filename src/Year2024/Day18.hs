@@ -3,7 +3,6 @@ module Year2024.Day18 (
   solution2,
 ) where
 
-import Common.Utils (safeHead, safeTail)
 import Data.List.Split (splitOn)
 import qualified Data.Map.Strict as M
 import Data.Maybe (fromJust)
@@ -26,7 +25,7 @@ processInput n s = foldr S.insert S.empty locs
  where
   ls = take n $ lines s
   locs = map (getPos . map read . splitOn ",") ls
-  getPos xs = (safeHead xs, last xs)
+  getPos xs = (head xs, last xs)
 
 end :: Pos
 end = (size, size)
@@ -100,7 +99,7 @@ solution1 s = show $ record M.! end
 processInput' :: String -> [Pos]
 processInput' =
   map
-    ( (\x -> (safeHead x, last x))
+    ( (\x -> (head x, last x))
         . map read
         . splitOn ","
     )
@@ -109,11 +108,11 @@ processInput' =
 -- search in reverse order
 solution2 :: String -> String
 solution2 s =
-  init . safeTail . show $
+  init . tail . show $
     find pos walls
  where
   pos = reverse $ processInput' s
-  walls = S.fromList (safeTail pos)
+  walls = S.fromList (tail pos)
 
 find :: [Pos] -> S.Set Pos -> Pos
 find [] _ = undefined

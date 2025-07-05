@@ -5,7 +5,6 @@ module Year2024.Day15 (
   animation2,
 ) where
 
-import Common.Utils (safeHead, safeTail)
 import Data.Char (isSpace)
 import Data.List (partition)
 import Data.Maybe (isNothing)
@@ -62,7 +61,7 @@ parseMap ::
   [String] -> -- input string
   (Box, Wall, Pos)
 parseMap x y boxes walls startPos graph
-  | null graph = (boxes, walls, safeHead startPos)
+  | null graph = (boxes, walls, head startPos)
   | null row = parseMap 0 (y + 1) boxes walls startPos rows
   | c == '.' = parseMap (x + 1) y boxes walls startPos next
   | c == 'O' = parseMap (x + 1) y boxes' walls startPos next
@@ -72,12 +71,12 @@ parseMap x y boxes walls startPos graph
   | c == '#' = parseMap (x + 1) y boxes walls' startPos next
   | otherwise = error ("Unrecognized char: " ++ [c])
  where
-  row = safeHead graph
-  rows = safeTail graph
-  c = safeHead row
-  cs = safeTail row
+  row = head graph
+  rows = tail graph
+  c = head row
+  cs = tail row
   next = cs : rows
-  next' = safeTail cs : rows
+  next' = tail cs : rows
   boxes' = [(x, y)] : boxes
   boxes'' = [(x, y), (x + 1, y)] : boxes
   walls' = (x, y) : walls
@@ -129,7 +128,7 @@ solution2 :: String -> String
 solution2 s = show $ run box wall start insts
  where
   (box, wall, start, insts) = processInput modify s
-  modify = map (safeTail . concatMap expand)
+  modify = map (tail . concatMap expand)
   expand 'O' = "[]"
   expand '.' = ".."
   expand '@' = "@."
@@ -148,8 +147,8 @@ printMap boxes walls pos c = unlines $ map (prefix . map locChar) locs
   locs = [[(x, y) | x <- [0 .. width]] | y <- [0 .. height]]
   locChar p
     | p == pos = c
-    | any (\b -> safeHead b == p && length b == 1) boxes = 'O'
-    | any (\b -> safeHead b == p && length b == 2) boxes = '['
+    | any (\b -> head b == p && length b == 1) boxes = 'O'
+    | any (\b -> head b == p && length b == 2) boxes = '['
     | any (\b -> last b == p && length b == 2) boxes = ']'
     | p `elem` walls = '#'
     | otherwise = '.'
@@ -177,7 +176,7 @@ animation2 :: String -> [String]
 animation2 s = runAnim box wall start insts
  where
   (box, wall, start, insts) = processInput modify s
-  modify = map (safeTail . concatMap expand)
+  modify = map (tail . concatMap expand)
   expand 'O' = "[]"
   expand '.' = ".."
   expand '@' = "@."

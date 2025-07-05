@@ -3,7 +3,6 @@ module Year2024.Day16 (
   solution2,
 ) where
 
-import Common.Utils (safeHead)
 import Control.Monad (guard)
 import qualified Data.Map.Strict as M
 import Data.Maybe (fromJust, isJust)
@@ -30,7 +29,7 @@ processMap ::
   ([Pos], [Pos], S.Set Pos) ->
   String ->
   (Pos, Pos, S.Set Pos)
-processMap _ _ (s, e, ps) [] = (safeHead s, safeHead e, ps)
+processMap _ _ (s, e, ps) [] = (head s, head e, ps)
 processMap _ y (s, e, ps) ('\n' : ss) =
   processMap 0 (y + 1) (s, e, ps) ss
 processMap x y (s, e, ps) ('.' : ss) =
@@ -57,7 +56,7 @@ getNext :: Candidate -> ((Score, (State, [State])), Candidate)
 getNext candidate = ((sc, (cur, prvs)), candidate')
  where
   (sc, states) = M.findMin candidate
-  (cur, prvs) = safeHead states
+  (cur, prvs) = head states
   states' = drop 1 states
   candidate' =
     if null states'

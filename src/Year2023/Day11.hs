@@ -1,13 +1,12 @@
 module Year2023.Day11 (solution1, solution2) where
 
-import Common.Utils (safeHead)
 import qualified Data.Set as S
 
 type Pos = (Int, Int)
 
 processInput :: String -> (Int, Int, S.Set Pos)
 processInput s =
-  ( length (safeHead ls)
+  ( length (head ls)
   , length ls
   , parseMap 0 0 S.empty s
   )

@@ -1,14 +1,13 @@
 module Year2023.Day06 (solution1, solution2) where
 
-import Common.Utils (safeHead, safeTail)
 import Data.Char (isDigit)
 
 processInput :: String -> [(Double, Double)]
 processInput s = rs
  where
   ls = lines s
-  nums = map (map read . safeTail . words) ls
-  rs = zip (safeHead nums) (last nums)
+  nums = map (map read . tail . words) ls
+  rs = zip (head nums) (last nums)
 
 -- solve equation:
 -- x * (t - x) == d
@@ -36,7 +35,7 @@ solution1 =
 
 processInput' :: String -> (Double, Double)
 processInput' s =
-  (getNum (safeHead ls), getNum (last ls))
+  (getNum (head ls), getNum (last ls))
  where
   ls = lines s
   getNum = read . filter isDigit

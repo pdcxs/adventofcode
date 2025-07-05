@@ -1,6 +1,5 @@
 module Year2024.Day12 (solution1, solution2) where
 
-import Common.Utils (safeHead, safeTail)
 import Data.List (unfoldr)
 import qualified Data.Map as M
 import qualified Data.Set as S
@@ -54,8 +53,8 @@ getRegion c visited candidates m
   | otherwise = getRegion c visited' ls' m
  where
   m' = M.withoutKeys m visited -- remove locations in current region
-  l = safeHead candidates -- pick up first candidates
-  ls = safeTail candidates
+  l = head candidates -- pick up first candidates
+  ls = tail candidates
   visited' = S.insert l visited
   next =
     -- generate new locations should be explored
