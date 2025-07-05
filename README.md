@@ -11,7 +11,22 @@ Principles:
 
 
 Execution Instructions:  
+
 This project uses Stack for building and compilation.
+
+Build:
+
+For windows:
+
+```powershell
+chcp 65001; stack build --fast
+```
+
+Other platform:
+
+```bash
+stack build --fast
+```
 
 To run the second problem of Day 6 (2024) with input from `inputs/2024/input6.txt`:
 
@@ -66,6 +81,20 @@ This is my [Bilibili video record](https://www.bilibili.com/video/BV1vPC5YUEQZ) 
 
 本项目依靠 stack 构建与编译
 
+编译：
+
+Windows 平台：
+
+```powershell
+chcp 65001; stack build --fast
+```
+
+其他平台：
+
+```bash
+stack build --fast
+```
+
 运行以下命令，将运行2024年第6天的第二道题目，题目输入为 inputs/2024/input6.txt：
 
 ```bash
@@ -87,7 +116,7 @@ stack run -- 2024 15 4 test 2
 运行以下命令，会运行第15天第一道题目的动画演示，2 FPS，非测试输入内容：
 
 ```bash
-stack run -- 2024 15 3 0.5
+stack run -- 2024 15 3 2
 ```
 
 动画可以用以下按键来控制：
