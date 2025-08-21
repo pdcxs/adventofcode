@@ -82,8 +82,8 @@ getPath s = search m start start []
  where
   (start, m) = processInput s
 
-solution1 :: String -> String
-solution1 s = show c
+solution1 :: String -> IO ()
+solution1 s = print c
  where
   ps = getPath s
   c = length ps `div` 2
@@ -95,5 +95,5 @@ getArea ps = (abs p - n) / 2 + 1
   n = fromIntegral $ length ps
   p = fromIntegral $ sum (zipWith cross ps (drop 1 $ cycle ps))
 
-solution2 :: String -> String
-solution2 = show . getArea . getPath
+solution2 :: String -> IO ()
+solution2 = print . getArea . getPath

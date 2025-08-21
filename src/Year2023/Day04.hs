@@ -19,8 +19,8 @@ getPoint (xs, ys)
  where
   n = length [p | p <- ys, p `elem` xs]
 
-solution1 :: String -> String
-solution1 = show . sum . map getPoint . processInput
+solution1 :: String -> IO ()
+solution1 = print . sum . map getPoint . processInput
 
 getInstance :: Int -> M.Map Int Int -> [([Int], [Int])] -> Int
 getInstance _ m [] = sum (M.elems m)
@@ -34,8 +34,8 @@ getInstance i m (x : xs)
   cards = [(c, cur) | c <- [i + 1 .. i + next]]
   m' = M.unionWith (+) m (M.fromList cards)
 
-solution2 :: String -> String
-solution2 s = show (getInstance 1 m rs)
+solution2 :: String -> IO ()
+solution2 s = print (getInstance 1 m rs)
  where
   rs = processInput s
   len = length rs

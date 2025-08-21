@@ -26,13 +26,13 @@ getHeight ls = map count cols
 fit :: [Int] -> [Int] -> Bool
 fit xs = all (<= 5) . zipWith (+) xs
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 s =
- show . length $
+ print . length $
   [ (l, k) | l <- locks, k <- keys, fit l k
   ]
  where
   (locks, keys) = processInput s
 
-solution2 :: String -> String
-solution2 = const "We make it!"
+solution2 :: String -> IO ()
+solution2 = putStrLn . const "We make it!"

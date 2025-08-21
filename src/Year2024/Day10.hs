@@ -52,17 +52,17 @@ neighbors (x, y) =
  , (x, y - 1)
  ]
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 s =
- show $
+ print $
   sum $
    map (length . nubOrd . getDest m) starts
  where
   (starts, m) = processInput s
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 s =
- show $
+ print $
   sum $
    map (pathNum m) starts
  where

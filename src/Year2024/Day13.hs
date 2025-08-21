@@ -32,16 +32,16 @@ solve nums =
   a = n1 / den
   b = n2 / den
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 =
- show
+ print
   . sum
   . map solve
   . processInput
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 =
- show
+ print
   . sum
   . map (solve . fix)
   . processInput

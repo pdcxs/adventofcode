@@ -26,9 +26,9 @@ isRound x = abs (r - x) < 1e-5
  where
   r = fromIntegral (round x :: Int)
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 =
- show
+ print
   . product
   . map solve
   . processInput
@@ -40,5 +40,5 @@ processInput' s =
   ls = lines s
   getNum = read . filter isDigit
 
-solution2 :: String -> String
-solution2 = show . solve . processInput'
+solution2 :: String -> IO ()
+solution2 = print . solve . processInput'

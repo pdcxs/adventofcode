@@ -63,9 +63,9 @@ cntPath n p =
    ('A' : p)
    p
 
-solution :: Int -> String -> String
+solution :: Int -> String -> IO ()
 solution n s =
- show . sum $
+ print . sum $
   zipWith (*) nums cnts
  where
   ls = lines s
@@ -85,8 +85,8 @@ solution n s =
    | ps <- paths
    ]
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 = solution 2
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 = solution 25

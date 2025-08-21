@@ -39,12 +39,12 @@ solve dist cs =
   xs = filter (isMissMirror cs dist) [1 .. cn - 1]
   ys = filter (isMissMirror rs dist) [1 .. rn - 1]
 
-solution1 :: String -> String
-solution1 = show . sum . map (solve 0) . processInput
+solution1 :: String -> IO ()
+solution1 = print . sum . map (solve 0) . processInput
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 =
- show
+ print
   . sum
   . map (solve $ ord '.' - ord '#')
   . processInput

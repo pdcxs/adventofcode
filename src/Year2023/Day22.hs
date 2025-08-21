@@ -162,9 +162,9 @@ isSafe (above, below) index =
        )
        bottoms
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 input =
- show safeCount
+ print safeCount
  where
   bricks = processInput input
   (fallenBricks, supports) =
@@ -175,9 +175,9 @@ solution1 input =
      (isSafe supports)
      [0 .. V.length fallenBricks - 1]
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 input =
- show
+ print
   . sum
   . map
    ( search supports S.empty

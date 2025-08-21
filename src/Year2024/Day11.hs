@@ -42,15 +42,19 @@ countStone' :: Int -> Int -> Int
 countStone' times stone =
  sum (iterate step (M.singleton stone 1) !! times)
 
-countStones :: (Int -> Int -> Int) -> Int -> String -> String
+countStones ::
+ (Int -> Int -> Int) ->
+ Int ->
+ String ->
+ Int
 countStones f times s =
- show . sum $
+ sum $
   map (f times) (processInput s)
 
-solution1 :: String -> String
-solution1 = countStones countStone 25
+solution1 :: String -> IO ()
+solution1 = print . countStones countStone 25
 
 -- You can also use countStones countStone 75.
 -- Both methods are OK.
-solution2 :: String -> String
-solution2 = countStones countStone' 75
+solution2 :: String -> IO ()
+solution2 = print . countStones countStone' 75

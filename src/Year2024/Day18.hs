@@ -85,8 +85,8 @@ combine (x : xs) ys =
       else b : bs
     else b : insert a bs
 
-solution1 :: String -> String
-solution1 s = show $ record M.! end
+solution1 :: String -> IO ()
+solution1 s = print $ record M.! end
  where
   walls = processInput 1024 s
   record =
@@ -106,9 +106,9 @@ processInput' =
   . lines
 
 -- search in reverse order
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 s =
- init . tail . show $
+ putStrLn . init . tail . show $
   find pos walls
  where
   pos = reverse $ processInput' s

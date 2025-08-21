@@ -44,8 +44,8 @@ getCirc ((x1, y1) : (x2, y2) : rs) =
   + getCirc ((x2, y2) : rs)
 getCirc _ = 0
 
-solution1 :: String -> String
-solution1 = show . getArea . getCoords . processInput
+solution1 :: String -> IO ()
+solution1 = print . getArea . getCoords . processInput
 
 hex :: String -> Int
 hex =
@@ -77,9 +77,9 @@ parse s = (getDir s2, hex s1)
   getDir "3" = (0, -1)
   getDir _ = undefined
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 =
- show
+ print
   . getArea
   . getCoords'
   . processInput

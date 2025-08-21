@@ -33,8 +33,8 @@ getStep m node (i : insts)
   (l, r) = m M.! node
 getStep _ _ [] = undefined
 
-solution1 :: String -> String
-solution1 s = show $ getStep m "AAA" (cycle insts)
+solution1 :: String -> IO ()
+solution1 s = print $ getStep m "AAA" (cycle insts)
  where
   (insts, m) = processInput s
 
@@ -51,8 +51,8 @@ getRound m insts node
         then step l is
         else step r is
 
-solution2 :: String -> String
-solution2 s = show (length insts * minRnd)
+solution2 :: String -> IO ()
+solution2 s = print (length insts * minRnd)
  where
   (insts, m) = processInput s
   starts =

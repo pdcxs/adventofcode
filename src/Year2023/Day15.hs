@@ -17,8 +17,8 @@ processInput = splitOn "," . filter (not . isSpace)
 getHash :: String -> Hash
 getHash = foldl (\acc x -> (acc + ord x) * 17 `mod` 256) 0
 
-solution1 :: String -> String
-solution1 = show . sum . map getHash . processInput
+solution1 :: String -> IO ()
+solution1 = print . sum . map getHash . processInput
 
 data Item = Add String Int | Remove String
  deriving (Show)
@@ -87,5 +87,5 @@ getAnswer =
    )
    (0, 1)
 
-solution2 :: String -> String
-solution2 = show . getAnswer . solve initBoxes . processInput'
+solution2 :: String -> IO ()
+solution2 = print . getAnswer . solve initBoxes . processInput'

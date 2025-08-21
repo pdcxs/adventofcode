@@ -82,16 +82,16 @@ edges r =
  , (ex, ey) `S.notMember` r
  ]
 
-solution1 :: String -> String
-solution1 s = show . sum $ zipWith (*) crs ces
+solution1 :: String -> IO ()
+solution1 s = print . sum $ zipWith (*) crs ces
  where
   rgs = processInput s
   edgs = map edges rgs
   crs = map S.size rgs
   ces = map length edgs
 
-solution2 :: String -> String
-solution2 s = show . sum $ zipWith (*) crns areas
+solution2 :: String -> IO ()
+solution2 s = print . sum $ zipWith (*) crns areas
  where
   rgs = processInput s
   crns = map (length . corners) rgs

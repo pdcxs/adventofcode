@@ -50,9 +50,9 @@ update
    file1 = ((freeLoc, freeSize), fileId)
    file2 = ((fileLoc, fileSize - freeSize), fileId)
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 s =
- show $ getCheckSums sortedFiles
+ print $ getCheckSums sortedFiles
  where
   (files, frees) = processInput s
   go [] frs = ([], frs)
@@ -69,9 +69,9 @@ getCheckSum ((loc, size), fileId) =
 getCheckSums :: [File] -> Int
 getCheckSums = sum . map getCheckSum
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 s =
- show $ getCheckSums sortedFiles
+ print $ getCheckSums sortedFiles
  where
   (files, frees) = processInput s
   go [] frs = ([], frs)

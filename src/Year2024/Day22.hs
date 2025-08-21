@@ -20,9 +20,9 @@ next x = r
 ntimes :: Int -> Int -> Int
 ntimes n = (!! n) . iterate next
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 =
- show
+ print
   . sum
   . map (ntimes 2000)
   . processInput
@@ -38,9 +38,9 @@ getMap n = go M.empty rs
    | hs `M.member` m = go m nhs
    | otherwise = go (M.insert hs x m) nhs
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 =
- show
+ print
   . maximum
   . foldl1' (M.unionWith (+))
   . map getMap

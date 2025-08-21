@@ -9,9 +9,9 @@ processInput f = map (extractNum . f) . lines
    read
     . (\s -> [head s, last s])
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 =
- show
+ print
   . sum
   . processInput (filter isDigit)
 
@@ -36,5 +36,5 @@ strToNum (c : cs)
  | isDigit c = c : strToNum cs
  | otherwise = strToNum cs
 
-solution2 :: String -> String
-solution2 = show . sum . processInput strToNum
+solution2 :: String -> IO ()
+solution2 = print . sum . processInput strToNum

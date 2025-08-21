@@ -27,7 +27,7 @@ import qualified Year2024.Day23
 import qualified Year2024.Day24
 import qualified Year2024.Day25
 
-solutions :: M.Map (Int, Int, Int) (String -> String)
+solutions :: M.Map (Int, Int, Int) (String -> IO ())
 solutions =
   M.fromList
     [ ((2024, 1, 1), Year2024.Day01.solution1)

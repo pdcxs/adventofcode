@@ -8,15 +8,15 @@ processInput s = (map head nums, map last nums)
   ls = lines s
   nums = map (map read . words) ls
 
-solution1 :: String -> String
-solution1 s = show $ sum $ map abs sl
+solution1 :: String -> IO ()
+solution1 s = print $ sum $ map abs sl
  where
   (lst1, lst2) = processInput s
   sl = zipWith subtract (sort lst1) (sort lst2)
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 s =
- show $
+ print $
   sum $
    zipWith (*) lst1 $
     map (count lst2) lst1

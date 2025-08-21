@@ -15,17 +15,17 @@ isSafeOp op (x : y : xs)
 isSafe :: [Int] -> Bool
 isSafe xs = isSafeOp (>) xs || isSafeOp (<) xs
 
-solution1 :: String -> String
-solution1 s = show $ length $ filter isSafe inputs
+solution1 :: String -> IO ()
+solution1 s = print $ length $ filter isSafe inputs
  where
   inputs = processInput s
 
 rmIndex :: [Int] -> Int -> [Int]
 rmIndex xs i = take i xs ++ drop (i + 1) xs
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 s =
- show $
+ print $
   length $
    filter isRmSafe inputs
  where

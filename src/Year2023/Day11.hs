@@ -52,17 +52,15 @@ updateRow scale height rows (x, y) =
    ]
   n = length emptyRows
 
-getAnswer :: Int -> String -> String
+getAnswer :: Int -> String -> Int
 getAnswer scale s =
- show $
-  ( sum
-     [ abs (x - x1) + abs (y - y1)
-     | (x, y) <- ps''
-     , (x1, y1) <- ps''
-     , (x, y) /= (x1, y1)
-     ]
-  )
-   `div` 2
+ sum
+  [ abs (x - x1) + abs (y - y1)
+  | (x, y) <- ps''
+  , (x1, y1) <- ps''
+  , (x, y) /= (x1, y1)
+  ]
+  `div` 2
  where
   (width, height, ps) = processInput s
   columns = getColums ps
@@ -70,8 +68,8 @@ getAnswer scale s =
   ps' = S.map (updateColumn scale width columns) ps
   ps'' = S.toList $ S.map (updateRow scale height rows) ps'
 
-solution1 :: String -> String
-solution1 = getAnswer 2
+solution1 :: String -> IO ()
+solution1 = print . getAnswer 2
 
-solution2 :: String -> String
-solution2 = getAnswer 1000000
+solution2 :: String -> IO ()
+solution2 = print . getAnswer 1000000

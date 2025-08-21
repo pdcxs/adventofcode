@@ -70,16 +70,16 @@ processInput s = (tree, inputs)
   patterns = splitOn ", " (head ls)
   tree = getPrefixTree patterns
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 s =
- show . length . filter (> 0) $
+ print . length . filter (> 0) $
   map (countWays tree) inputs
  where
   (tree, inputs) = processInput s
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 s =
- show . sum $
+ print . sum $
   map (countWays tree) inputs
  where
   (tree, inputs) = processInput s

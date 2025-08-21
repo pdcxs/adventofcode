@@ -37,17 +37,17 @@ combineFuncs maps = go fs
   go [] = id
   go (f' : fs') = go fs' . f'
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 s =
- show . minimum $
+ print . minimum $
   map f seeds
  where
   (seeds, maps) = processInput s
   f = combineFuncs maps
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 s =
- show . fst . minimum $
+ print . fst . minimum $
   go maps eds
  where
   (seed, maps) = processInput s

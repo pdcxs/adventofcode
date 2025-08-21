@@ -5,7 +5,7 @@ import qualified Data.Map.Strict as M
 import qualified Year2023.Solutions
 import qualified Year2024.Solutions
 
-solutions :: M.Map (Int, Int, Int) (String -> String)
+solutions :: M.Map (Int, Int, Int) (String -> IO ())
 solutions =
   foldr1
     M.union

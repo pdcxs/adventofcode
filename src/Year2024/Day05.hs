@@ -24,8 +24,8 @@ parser = do
 processInput :: String -> ([(Int, Int)], [[Int]])
 processInput = fromRight undefined . parse parser ""
 
-solution1 :: String -> String
-solution1 s = show $ sum $ map middle good
+solution1 :: String -> IO ()
+solution1 s = print $ sum $ map middle good
  where
   (rules, updates) = processInput s
   good = filter (isTopSortOf rules) updates
@@ -41,8 +41,8 @@ middle xs = xs !! m
  where
   m = length xs `div` 2
 
-solution2 :: String -> String
-solution2 s = show $ sum $ map middle sorted
+solution2 :: String -> IO ()
+solution2 s = print $ sum $ map middle sorted
  where
   (rules, updates) = processInput s
   bad = filter (not . isTopSortOf rules) updates

@@ -15,11 +15,11 @@ step xs
  where
   next = step $ zipWith subtract xs (tail xs)
 
-getSum :: ([Int] -> Int) -> String -> String
-getSum pick = show . sum . map (pick . step) . processInput
+getSum :: ([Int] -> Int) -> String -> Int
+getSum pick = sum . map (pick . step) . processInput
 
-solution1 :: String -> String
-solution1 = getSum last
+solution1 :: String -> IO ()
+solution1 = print . getSum last
 
-solution2 :: String -> String
-solution2 = getSum head
+solution2 :: String -> IO ()
+solution2 = print . getSum head

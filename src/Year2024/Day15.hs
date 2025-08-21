@@ -118,13 +118,13 @@ run boxes walls pos (d : ds) =
  let (boxes', pos') = move boxes walls pos d
   in run boxes' walls pos' ds
 
-solution1 :: String -> String
-solution1 s = show $ run box wall start insts
+solution1 :: String -> IO ()
+solution1 s = print $ run box wall start insts
  where
   (box, wall, start, insts) = processInput id s
 
-solution2 :: String -> String
-solution2 s = show $ run box wall start insts
+solution2 :: String -> IO ()
+solution2 s = print $ run box wall start insts
  where
   (box, wall, start, insts) = processInput modify s
   modify = map (tail . concatMap expand)

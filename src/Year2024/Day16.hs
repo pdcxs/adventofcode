@@ -130,8 +130,8 @@ getRecord s = (end, search ps initialCandidate M.empty)
   (start, end, ps) = processInput s
   initialCandidate = M.fromList [(0, [(((1, 0), start), [])])]
 
-solution1 :: String -> String
-solution1 = show . uncurry findMinScore . getRecord
+solution1 :: String -> IO ()
+solution1 = print . uncurry findMinScore . getRecord
 
-solution2 :: String -> String
-solution2 = show . uncurry findPositionCount . getRecord
+solution2 :: String -> IO ()
+solution2 = print . uncurry findPositionCount . getRecord

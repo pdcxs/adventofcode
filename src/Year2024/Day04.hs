@@ -37,9 +37,9 @@ isXMAS s = s == "XMAS" || s == "SAMX"
 get :: Grid -> Pos -> Char
 get grid (r, c) = grid V.! r V.! c
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 s =
- show $
+ print $
   sum $
    [ posStrCount grid (r, c)
    | r <- [0 .. height - 1]
@@ -49,9 +49,9 @@ solution1 s =
   grid = processInput s
   (width, height) = getSize grid
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 s =
- show $
+ print $
   length $
    filter
     (isXShapedMAS grid)

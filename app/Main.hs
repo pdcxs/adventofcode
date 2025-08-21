@@ -43,7 +43,7 @@ main = do
       if question < 3
         then
           let func = solutions M.! (year, day, question)
-           in putStrLn $ func contents
+           in func contents
         else
           let func = animations M.! (year, day, question)
               -- generate animation texts

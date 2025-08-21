@@ -116,8 +116,8 @@ countSig = go 0 0
 start :: [Action]
 start = [("", "broadcaster", False)]
 
-solution1 :: String -> String
-solution1 input = show (countSig c 1000)
+solution1 :: String -> IO ()
+solution1 input = print (countSig c 1000)
  where
   c = processInput input
 
@@ -129,9 +129,9 @@ solution1 input = show (countSig c 1000)
 -- put the generated code to
 -- https://mermaid.live/edit
 -- to see the graph
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 input =
- show $
+ print $
   foldr1 lcm $
    M.elems
     (go c records (1 :: Integer))
@@ -222,9 +222,9 @@ pushButton' c names activated ((f, t, p) : as) =
  where
   m = M.lookup t c
 
-solution0 :: String -> String
+solution0 :: String -> IO ()
 solution0 =
- unlines
+ putStrLn . unlines
   . ("flowchart TD" :)
   . map ("  " ++)
   . arrange [] [] []

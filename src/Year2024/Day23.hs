@@ -52,17 +52,18 @@ startWithT :: String -> Bool
 startWithT ('t' : _) = True
 startWithT _ = False
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 =
- show
+ print
   . S.size
   . S.filter (any startWithT)
   . search
   . processInput
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 s =
- intercalate ","
+ putStrLn
+  . intercalate ","
   . sort
   . maximumBy (comparing length)
   $ scan vtx []

@@ -52,16 +52,16 @@ startsWith :: (Eq a) => a -> [a] -> Bool
 startsWith _ [] = False
 startsWith x (y : _) = x == y
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 =
- show
+ print
   . sum
   . map (uncurry solve)
   . processInput id id
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 =
- show
+ print
   . sum
   . map (uncurry solve)
   . processInput pre1 pre2

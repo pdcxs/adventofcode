@@ -27,8 +27,8 @@ processInput s = array ((0, 0), (w - 1, h - 1)) grid
    ((x, y), c)
     : getGrid (x + 1) y (cs : css)
 
-solution1 :: String -> String
-solution1 s = show $ length $ nubOrd path
+solution1 :: String -> IO ()
+solution1 s = print $ length $ nubOrd path
  where
   grid = processInput s
   start = head [p | (p, '^') <- assocs grid]
@@ -48,9 +48,9 @@ walk obs pos@(x, y) dir@(dx, dy) =
 turnRight :: Dir -> Dir
 turnRight (dx, dy) = (-dy, dx)
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 s =
- show $ length $ filter isLoop newPaths
+ print $ length $ filter isLoop newPaths
  where
   grid = processInput s
   start = head [p | (p, '^') <- assocs grid]

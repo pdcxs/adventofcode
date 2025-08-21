@@ -72,18 +72,18 @@ neighbors (x, y) =
  , abs dx + abs dy /= 0
  ]
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 =
- show
+ print
   . sum
   . concat
   . M.elems
   . gearNums
   . processInput
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 s =
- show $
+ print $
   sum
    [ product ints
    | (p, ints) <- M.assocs gn

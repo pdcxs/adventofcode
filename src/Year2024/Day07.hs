@@ -22,18 +22,18 @@ combs t ops (x : y : xs) =
 isRight :: [Op] -> Int -> [Int] -> Bool
 isRight ops target xs = target `elem` combs target ops xs
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 =
- show
+ print
   . sum
   . map fst
   . filter (uncurry (isRight [(+), (*)]))
   . processInput
 
 -- very slow, but it just works.
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 =
- show
+ print
   . sum
   . map fst
   . filter (uncurry (isRight [(+), (*), conc]))

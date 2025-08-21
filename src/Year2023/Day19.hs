@@ -113,9 +113,9 @@ step (Less c n inst : insts) itm =
 step (i : _) _ = i
 step [] _ = undefined
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 s =
- show $
+ print $
   sum $
    map
     (sum . M.elems)
@@ -168,9 +168,9 @@ getAnswer c =
   map (\(a, b) -> b - a + 1) $
    M.elems c
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 s =
- show $
+ print $
   sum $
    map getAnswer $
     step' system (system M.! "in") cs

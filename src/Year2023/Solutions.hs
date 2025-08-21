@@ -24,8 +24,9 @@ import qualified Year2023.Day20
 import qualified Year2023.Day21
 import qualified Year2023.Day22
 import qualified Year2023.Day23
+import qualified Year2023.Day24
 
-solutions :: M.Map (Int, Int, Int) (String -> String)
+solutions :: M.Map (Int, Int, Int) (String -> IO ())
 solutions =
   M.fromList
     [ ((2023, 1, 1), Year2023.Day01.solution1)
@@ -75,6 +76,8 @@ solutions =
     , ((2023, 22, 2), Year2023.Day22.solution2)
     , ((2023, 23, 1), Year2023.Day23.solution1)
     , ((2023, 23, 2), Year2023.Day23.solution2)
+    , ((2023, 24, 1), Year2023.Day24.solution1)
+    , ((2023, 24, 2), Year2023.Day24.solution2)
     ]
 
 animations :: M.Map (Int, Int, Int) (String -> [String])

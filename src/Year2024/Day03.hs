@@ -76,17 +76,17 @@ mulParser = do
 instParser :: Parser Inst
 instParser = mulParser <|> (anyChar $> None)
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 =
- show
+ print
   . eval True
   . fst
   . fromJust
   . runParser (many instParser)
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 =
- show
+ print
   . eval True
   . fst
   . fromJust

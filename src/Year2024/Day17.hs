@@ -139,9 +139,10 @@ getResult a code =
    (run code)
    (Machine a 0 0 0 [])
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 =
- init
+ putStrLn
+  . init
   . tail
   . show
   . uncurry getResult
@@ -154,8 +155,8 @@ solution1 =
 -- and outputs has same length of 8-based input
 -- you can use following code to see this
 
--- solution2 :: String -> String
--- solution2 s = unlines (map (show . go) [1 .. 8 ^ 4])
+-- solution2 :: String -> IO ()
+-- solution2 s = putStrLn $ unlines (map (show . go) [1 .. 8 ^ 4])
 --  where
 --   (_, code) = processInput s
 --   go v =
@@ -166,9 +167,9 @@ solution1 =
 --     let (h, l) = v `quotRem` 8
 --      in if h == 0 then l else 10 * toBase8 h + l
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 s =
- show (go minVal)
+ print (go minVal)
  where
   (_, code) = processInput s
   len = V.length code

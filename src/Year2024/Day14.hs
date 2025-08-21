@@ -46,9 +46,9 @@ collect (x, y) acc
   q3 = [0, 0, 1, 0]
   q4 = [0, 0, 0, 1]
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 =
- show
+ print
   . product
   . foldr (collect . getLoc 100) [0, 0, 0, 0]
   . processInput
@@ -72,8 +72,13 @@ printMap pos = go 0 0 []
       else go (x + 1) y (' ' : ss)
   loc = S.fromList pos
 
-solution2 :: String -> String
-solution2 s = show time ++ "\n" ++ printMap (head r)
+solution2 :: String -> IO ()
+solution2 s =
+ putStrLn
+  ( show time
+     ++ "\n"
+     ++ printMap (head r)
+  )
  where
   inputs = processInput s
   locs = map (\t -> map (getLoc t) inputs) [1 ..]

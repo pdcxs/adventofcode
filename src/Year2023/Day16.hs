@@ -76,18 +76,18 @@ search w h m sts visited =
   sts' = concatMap (filter (`S.notMember` visited) . step w h m) sts
   visited' = foldr S.insert visited sts'
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 s =
- show $
+ print $
   S.size $
    search w h m [start] (S.singleton start)
  where
   (w, h, m) = processInput s
   start = ((0, 0), (1, 0))
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 s =
- show $
+ print $
   maximum $
    map
     ( \x ->

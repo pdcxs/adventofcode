@@ -134,9 +134,8 @@ getNexts
         | valid pos && step <= maxStep && step >= minStep
         ]
 
-solve :: Int -> Int -> String -> String
+solve :: Int -> Int -> String -> Int
 solve minStep maxStep s =
- show $
   search w h m minStep maxStep start S.empty
  where
   (w, h, m) = processInput s
@@ -146,8 +145,8 @@ solve minStep maxStep s =
     , (0, S.singleton ((0, 0), (0, 1), 0))
     ]
 
-solution1 :: String -> String
-solution1 = solve 0 3
+solution1 :: String -> IO ()
+solution1 = print . solve 0 3
 
-solution2 :: String -> String
-solution2 = solve 4 10
+solution2 :: String -> IO ()
+solution2 = print . solve 4 10

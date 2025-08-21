@@ -102,9 +102,9 @@ run = execState m
    let vars = M.keys f
    mapM_ eval vars
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 s =
- show . fromBinary $
+ print . fromBinary $
   map (frame' M.!) zs
  where
   frame = processInput s
@@ -216,9 +216,10 @@ containsXor n (_, Xor (Var v1) (Var v2)) =
  v1 == n || v2 == n
 containsXor _ _ = False
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 s =
- intercalate ","
+  putStrLn
+  . intercalate ","
   . sort
   . nubOrd
   $ go 0 ""

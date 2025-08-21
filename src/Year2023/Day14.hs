@@ -104,15 +104,15 @@ getAnswer height =
   . map
    ((height -) . snd)
 
-solution1 :: String -> String
-solution1 s = show (getAnswer height ps')
+solution1 :: String -> IO ()
+solution1 s = print (getAnswer height ps')
  where
   (width, height, ps, rows, cols) = processInput s
   sps = sortBy (comparing snd) ps
   ps' = tilt width height rows cols (0, -1) sps
 
-solution2 :: String -> String
-solution2 s = show $ getAnswer height $ ps' !! idx
+solution2 :: String -> IO ()
+solution2 s = print (getAnswer height $ ps' !! idx)
  where
   (width, height, ps, rows, cols) = processInput s
   sps = sortBy (comparing snd) ps

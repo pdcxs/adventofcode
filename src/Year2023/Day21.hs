@@ -61,9 +61,9 @@ getCandidates w h walls n pos =
         next
   in getCandidates w h walls (n - 1) validNext
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 input =
- show . length $
+ print . length $
   (getCandidates w h walls 305 [start])
  where
   (w, h, start, walls) = processInput input
@@ -82,8 +82,8 @@ solution1 input =
 -- by consider the distance is odd or even
 -- but this solution is very simple
 -- and I love it, so I will keep it.
-solution2 :: String -> String
-solution2 input = show $ g 202300
+solution2 :: String -> IO ()
+solution2 input = print $ g 202300
  where
   (w, h, start, walls) = processInput input
   y0 = length $ getCandidates w h walls 65 [start]

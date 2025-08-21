@@ -28,9 +28,9 @@ processLine s =
      )
      (splitOn ", " rd)
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 s =
- show . sum $
+ print . sum $
   [ gameId
   | l <- lines s
   , let (gameId, rd) = processLine l
@@ -42,9 +42,9 @@ solution1 s =
     && r M.! "green" <= 13
     && r M.! "blue" <= 14
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 s =
- show . sum $
+ print . sum $
   [ product rd
   | l <- lines s
   , let (_, rd) = processLine l

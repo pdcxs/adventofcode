@@ -83,8 +83,8 @@ neighbors (x, y) =
  , (x, y + 1)
  ]
 
-solution1 :: String -> String
-solution1 s = show (M.size goodPlans)
+solution1 :: String -> IO ()
+solution1 s = print (M.size goodPlans)
  where
   (walls, start, end) = processInput s
   (width, height) = maximum walls
@@ -92,8 +92,8 @@ solution1 s = show (M.size goodPlans)
   plans = getCheatPlan width height path 2
   goodPlans = M.filter (>= 100) plans
 
-solution2 :: String -> String
-solution2 s = show (M.size goodPlans)
+solution2 :: String -> IO ()
+solution2 s = print (M.size goodPlans)
  where
   (walls, start, end) = processInput s
   (width, height) = maximum walls

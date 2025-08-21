@@ -49,9 +49,9 @@ solution ::
  (Char -> Int) ->
  (Hand -> Int) ->
  String ->
- String
+ IO ()
 solution cmpFunc typeFunc s =
- show $ sum prds
+ print $ sum prds
  where
   ins = processInput s
   rs =
@@ -70,7 +70,7 @@ solution cmpFunc typeFunc s =
     map (\(_, _, bid) -> bid) rs
   prds = map (uncurry (*)) r
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 = solution cmpInt handToType
 
 cmpInt' :: Char -> Int
@@ -93,5 +93,5 @@ handToType' hd = getType rs
     else
      (head gps + l) : tail gps
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 = solution cmpInt' handToType'

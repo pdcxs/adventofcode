@@ -50,18 +50,18 @@ antiNode :: Pos -> Pos -> Pos
 antiNode (x1, y1) (x2, y2) =
  (2 * x2 - x1, 2 * y2 - y1)
 
-solution1 :: String -> String
-solution1 s = show $ length $ nubOrd ps
+solution1 :: String -> IO ()
+solution1 s = print $ length $ nubOrd ps
  where
   (w, h, m) = processInput s
   ps = concatMap (antiNodes w h) $ M.elems m
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 s =
- show $
-  length $
-   nubOrd $
-    concatMap (getAntiPos w h) ps
+ print
+  . length
+  . nubOrd
+  $ concatMap (getAntiPos w h) ps
  where
   (w, h, m) = processInput s
   ps = M.elems m

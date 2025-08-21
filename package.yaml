@@ -33,6 +33,7 @@ dependencies:
   - time
   - regex-tdfa
   - h-raylib
+  - sbv
 
 ghc-options:
   - -Wall

@@ -114,9 +114,9 @@ longestPath g start end =
      , S.notMember next visited
      ]
 
-solution :: (String -> String) -> String -> String
+solution :: (String -> String) -> String -> IO ()
 solution process input =
- show $ longestPath g start end
+ print $ longestPath g start end
  where
   (w, h, m) = processInput (process input)
   start = (1, 0)
@@ -124,10 +124,10 @@ solution process input =
   js = junctions m start end
   g = buildGraph m js
 
-solution1 :: String -> String
+solution1 :: String -> IO ()
 solution1 = solution id
 
-solution2 :: String -> String
+solution2 :: String -> IO ()
 solution2 = solution preProcess
  where
   preProcess [] = []
