@@ -22,6 +22,12 @@ For windows:
 chcp 65001; stack build --fast
 ```
 
+To use `sbv` library, we need to install z3:
+
+```powershell
+scoop install z3
+```
+
 Other platform:
 
 ```bash
@@ -87,6 +93,12 @@ Windows 平台：
 
 ```powershell
 chcp 65001; stack build --fast
+```
+
+为了使用 `sbv` 库，需要安装 `z3` 求解器：
+
+```powershell
+scoop install z3
 ```
 
 其他平台：
