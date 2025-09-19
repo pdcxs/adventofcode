@@ -75,18 +75,18 @@ solution1 input = print (length validResults)
       r
    ]
 
-solveRock :: [(Point, Point)] -> IO (Maybe (AlgReal, AlgReal, AlgReal))
+solveRock :: [(Point, Point)] -> IO (Maybe (Integer, Integer, Integer))
 solveRock inputs = do
  res <- sat $ do
-  x <- sReal "x"
-  y <- sReal "y"
-  z <- sReal "z"
-  dx <- sReal "dx"
-  dy <- sReal "dy"
-  dz <- sReal "dz"
+  x <- sInteger "x"
+  y <- sInteger "y"
+  z <- sInteger "z"
+  dx <- sInteger "dx"
+  dy <- sInteger "dy"
+  dz <- sInteger "dz"
 
   for_ inputs $ \((x_, y_, z_), (dx_, dy_, dz_)) -> do
-   t <- sReal "t"
+   t <- sInteger "t"
    constrain (t * (dx - fromIntegral dx_) .== (fromIntegral x_ - x))
    constrain (t * (dy - fromIntegral dy_) .== (fromIntegral y_ - y))
    constrain (t * (dz - fromIntegral dz_) .== (fromIntegral z_ - z))
