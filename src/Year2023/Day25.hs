@@ -1,5 +1,6 @@
 module Year2023.Day25 (solution1, solution2) where
 
+import qualified Data.IntMap.Strict as IM
 import Data.List.Split (splitOn)
 import qualified Data.Map.Strict as M
 import System.Random (
@@ -10,7 +11,9 @@ import System.Random (
 
 type Vertex = Int
 type Edge = (Vertex, Vertex)
-type GroupCount = M.Map Vertex Int
+
+-- GroupId -> Vertex Count in corresponding group
+type GroupCount = IM.IntMap Int
 
 processInput :: String -> ([Edge], GroupCount)
 processInput input = (edges, vertexGroup)
@@ -32,14 +35,16 @@ processInput input = (edges, vertexGroup)
   verts = concatMap getVertex ls
   (vertexMap, _) =
    foldl'
-    ( \(m, i) v -> case M.lookup v m of
-       Just _ -> (m, i)
-       Nothing -> (M.insert v i m, i + 1)
+    ( \(m, i) v ->
+       if M.member v m
+        then (m, i)
+        else
+         (M.insert v i m, i + 1)
     )
     (M.empty, 0)
     verts
   vertexGroup =
-   M.fromList
+   IM.fromList
     [ (g, 1)
     | v <- verts
     , let g = vertexMap M.! v
@@ -53,9 +58,9 @@ mergeEdge _ [] = error "No edges to merge"
 mergeEdge gc ((from, to) : es) =
  (es', gc')
  where
-  ct1 = gc M.! from
-  ct2 = gc M.! to
-  gc' = M.insert from (ct1 + ct2) (M.delete to gc)
+  ct1 = gc IM.! from
+  ct2 = gc IM.! to
+  gc' = IM.insert from (ct1 + ct2) (IM.delete to gc)
   es' =
    filter (uncurry (/=)) $
     map
@@ -71,7 +76,7 @@ merge ::
  [Edge] ->
  (GroupCount, Int)
 merge gc es
- | M.size gc == 2 = (gc, length es)
+ | IM.size gc == 2 = (gc, length es)
  | null es = (gc, 0)
  | otherwise =
    let (es', gc') = mergeEdge gc es
