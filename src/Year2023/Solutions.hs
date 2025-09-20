@@ -1,6 +1,6 @@
 module Year2023.Solutions (solutions, animations) where
 
-import qualified Data.Map.Strict as M
+import qualified Data.Map as M
 import qualified Year2023.Day01
 import qualified Year2023.Day02
 import qualified Year2023.Day03
