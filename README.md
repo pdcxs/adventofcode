@@ -19,31 +19,25 @@ Build:
 For windows:
 
 ```powershell
-chcp 65001; stack build --fast
-```
-
-To use `sbv` library, we need to install z3:
-
-```powershell
-scoop install z3
+chcp 65001; stack build
 ```
 
 Other platform:
 
 ```bash
-stack build --fast
+stack build
 ```
 
 To run the second problem of Day 6 (2024) with input from `inputs/2024/input6.txt`:
 
 ```bash
-stack run -- 2024 6 2
+stack run 2024 6 2
 ```
 
 To run the first problem of Day 1 (2024) with test input from `inputs/2024/test1.txt`:
 
 ```bash
-stack run -- 2024 1 1 test
+stack run 2024 1 1 test
 ```
 
 Some solutions feature animation demonstrations:
@@ -54,13 +48,13 @@ Some solutions feature animation demonstrations:
 Example 1: Run animation for 2024 Day 15 Problem 2 with test input (2 FPS):
 
 ```bash
-stack run -- 2024 15 4 test 2
+stack run 2024 15 4 test 2
 ```
 
 Example 2: Run animation for 2024 Day 15 Problem 1 with regular input (2 FPS):
 
 ```bash
-stack run -- 2024 15 3 2 
+stack run 2024 15 3 2 
 ```
 
 Animation can be controlled by following keys:
@@ -92,43 +86,37 @@ This is my [Bilibili video record](https://www.bilibili.com/video/BV1vPC5YUEQZ) 
 Windows 平台：
 
 ```powershell
-chcp 65001; stack build --fast
-```
-
-为了使用 `sbv` 库，需要安装 `z3` 求解器：
-
-```powershell
-scoop install z3
+chcp 65001; stack build
 ```
 
 其他平台：
 
 ```bash
-stack build --fast
+stack build
 ```
 
 运行以下命令，将运行2024年第6天的第二道题目，题目输入为 inputs/2024/input6.txt：
 
 ```bash
-stack run -- 2024 6 2
+stack run 2024 6 2
 ```
 
 运行以下命令，将运行2024年第1天的第一道题目，题目输入为测试输入，即 inputs/2024/test1.txt:
 
 ```bash
-stack run -- 2024 1 1 test
+stack run 2024 1 1 test
 ```
 
 部分程序拥有动画演示功能，1、2题的动画演示分别对应的题目编号为3、4，此外，动画演示程序可以指定每秒多少帧(FPS)，如不指定，默认为每秒1帧。例如，运行以下命令，会运行2024年第15天第二题的动画演示，2 FPS，输入为测试输入：
 
 ```bash
-stack run -- 2024 15 4 test 2
+stack run 2024 15 4 test 2
 ```
 
 运行以下命令，会运行第15天第一道题目的动画演示，2 FPS，非测试输入内容：
 
 ```bash
-stack run -- 2024 15 3 2
+stack run 2024 15 3 2
 ```
 
 动画可以用以下按键来控制：
