@@ -17,6 +17,7 @@ extra-source-files:
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
 description: Please see the README on GitHub at <https://github.com/pdcxs/adventofcode#readme>
+spec-version: 0.36.0
 
 dependencies:
   - base >= 4.7 && < 5
