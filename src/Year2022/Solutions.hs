@@ -9,6 +9,7 @@ import qualified Year2022.Day05
 import qualified Year2022.Day06
 import qualified Year2022.Day07
 import qualified Year2022.Day08
+import qualified Year2022.Day09
 
 solutions :: M.Map (Int, Int, Int) (String -> IO ())
 solutions =
@@ -29,6 +30,8 @@ solutions =
   , ((2022, 7, 2), Year2022.Day07.solution2)
   , ((2022, 8, 1), Year2022.Day08.solution1)
   , ((2022, 8, 2), Year2022.Day08.solution2)
+  , ((2022, 9, 1), Year2022.Day09.solution1)
+  , ((2022, 9, 2), Year2022.Day09.solution2)
   ]
 
 animations :: M.Map (Int, Int, Int) (String -> [String])
