@@ -1,83 +1,96 @@
-{-# OPTIONS_GHC -Wno-incomplete-uni-patterns #-}
-
 module Year2022.Day07 (solution1, solution2) where
 
-import Control.Monad.State
-import qualified Data.Map.Strict as M
+data PathTree
+ = Dir Int String [PathTree]
+ | File Int
 
-type Path = String
-data File = File Path Int
- deriving (Show)
+type Path = [String]
 
-type Machine = M.Map Path [File]
-type SizeRecord = M.Map Path Int
+getSize :: PathTree -> Int
+getSize (Dir s _ _) = s
+getSize (File s) = s
 
-buildMachine :: Path -> Machine -> [String] -> Machine
-buildMachine _ m [] = m
-buildMachine cwd m (l : ls)
- | "$ cd /" == l = buildMachine "/" m ls
- | "$ cd .." == l = buildMachine (getParent cwd) m ls
- | "$ ls" == take 4 l = buildMachine cwd m ls
- | "$ cd " == take 5 l =
-   let dir = drop 5 l
-    in buildMachine (cwd ++ dir ++ "/") m ls
- | "dir " == take 4 l =
-   let file = File (cwd ++ drop 4 l ++ "/") 0
-       updatedFiles = file : M.findWithDefault [] cwd m
-       updatedMachine = M.insert cwd updatedFiles m
-    in buildMachine cwd updatedMachine ls
- | otherwise =
-   let (sizeStr : fileName : _) = words l
-       size = read sizeStr
-       file = File (cwd ++ fileName) size
-       updatedFiles = file : M.findWithDefault [] cwd m
-       updatedMachine = M.insert cwd updatedFiles m
-    in buildMachine cwd updatedMachine ls
- where
-  getParent =
-   reverse
-    . dropWhile (/= '/')
-    . tail
-    . reverse
+appendTree ::
+ PathTree ->
+ [PathTree] ->
+ Path ->
+ PathTree
+appendTree (Dir size name _) itms [] =
+ Dir size name itms
+appendTree
+ (Dir size name chlds)
+ itms
+ (s : ss) =
+  Dir size name (go chlds)
+  where
+   go (c : cs) =
+    case c of
+     File _ -> c : go cs
+     Dir _ n _ ->
+      if n == s
+       then
+        appendTree c itms ss : cs
+       else c : go cs
+   go [] = undefined
+appendTree (File _) _ _ = undefined
 
-getSize :: Machine -> Path -> State SizeRecord Int
-getSize m path = do
- sr <- get
- if M.member path sr
-  then return $ sr M.! path
-  else do
-   let files = m M.! path
-   size <- sum <$> mapM getFileSize files
-   modify $ M.insert path size
-   return size
- where
-  getFileSize (File p s) =
-   if last p == '/'
-    then getSize m p
-    else return s
-
-getSizeRecord :: Machine -> SizeRecord
-getSizeRecord m = execState (getSize m "/") M.empty
-
-parseInput :: String -> SizeRecord
+parseInput :: String -> PathTree
 parseInput =
- getSizeRecord
-  . buildMachine "/" (M.singleton "/" [])
+ updateSize
+  . go (Dir 0 "/" []) []
+  . tail
   . lines
+ where
+  go tree _ [] = tree
+  go tree dirs (ln : lns)
+   | ln == "$ ls" =
+     let (cts, lns') =
+          span ((/= '$') . head) lns
+         itms = map parseLine cts
+         tree' = appendTree tree itms dirs
+      in go tree' dirs lns'
+   | ln == "$ cd .." =
+     go tree (init dirs) lns
+   | head ln == '$' =
+     let folder = last (words ln)
+      in go tree (dirs ++ [folder]) lns
+   | otherwise = tree
+  parseLine ('d' : cs) =
+   Dir 0 (last (words cs)) []
+  parseLine cs =
+   let size = read $ head $ words cs
+    in File size
+  updateSize f@(File _) = f
+  updateSize (Dir _ n chlds) =
+   let chlds' = map updateSize chlds
+       size = sum $ map getSize chlds'
+    in Dir size n chlds'
+
+search :: PathTree -> Int
+search (File _) = 0
+search (Dir s _ chlds)
+ | s < 100000 = s + s'
+ | otherwise = s'
+ where
+  s' = sum (map search chlds)
 
 solution1 :: String -> IO ()
-solution1 =
- print
-  . sum
-  . filter (<= 100000)
-  . M.elems
-  . parseInput
+solution1 = print . search . parseInput
 
-getDeleteSize :: SizeRecord -> Int
-getDeleteSize sr =
- let totalUsed = sr M.! "/"
-     target = totalUsed - 40000000
-  in minimum $ filter (>= target) $ M.elems sr
+search' :: Int -> Int -> PathTree -> Int
+search' _ s (File _) = s
+search' target s (Dir size _ chlds) =
+ minimum (map (search' target s') chlds)
+ where
+  s' =
+   if size > target
+    then min s size
+    else s
 
 solution2 :: String -> IO ()
-solution2 = print . getDeleteSize . parseInput
+solution2 input =
+ print $
+  search' target (maxBound :: Int) tree
+ where
+  tree = parseInput input
+  target = getSize tree - 40000000
