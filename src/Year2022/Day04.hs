@@ -6,35 +6,36 @@ import Data.List.Split (splitOn)
 
 type Range = (Int, Int)
 
-processInput :: String -> [(Range, Range)]
+processInput ::
+  String -> [(Range, Range)]
 processInput = map parseLine . lines
  where
   parseLine ln =
-   let [r1, r2] = splitOn "," ln
-    in (parseRange r1, parseRange r2)
+    let [r1, r2] = splitOn "," ln
+     in (parseRange r1, parseRange r2)
   parseRange r =
-   let [a, b] = splitOn "-" r
-    in (read a, read b)
+    let [a, b] = splitOn "-" r
+     in (read a, read b)
 
 isIn :: Range -> Range -> Bool
 isIn (a, b) (c, d) =
- a >= c && b <= d
-  || c >= a && d <= b
+  a >= c && b <= d
+    || c >= a && d <= b
 
 solution1 :: String -> IO ()
 solution1 =
- print
-  . length
-  . filter (uncurry isIn)
-  . processInput
+  print
+    . length
+    . filter (uncurry isIn)
+    . processInput
 
 isOverlap :: Range -> Range -> Bool
 isOverlap (a, b) (c, d) =
- not (b < c || a > d)
+  not (b < c || a > d)
 
 solution2 :: String -> IO ()
-solution2 = 
- print
-  . length
-  . filter (uncurry isOverlap)
-  . processInput
+solution2 =
+  print
+    . length
+    . filter (uncurry isOverlap)
+    . processInput

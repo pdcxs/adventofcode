@@ -12,14 +12,15 @@ solution1 :: String -> IO ()
 solution1 s = print $ sum $ map abs sl
  where
   (lst1, lst2) = processInput s
-  sl = zipWith subtract (sort lst1) (sort lst2)
+  sl =
+    zipWith subtract (sort lst1) (sort lst2)
 
 solution2 :: String -> IO ()
 solution2 s =
- print $
-  sum $
-   zipWith (*) lst1 $
-    map (count lst2) lst1
+  print $
+    sum $
+      zipWith (*) lst1 $
+        map (count lst2) lst1
  where
   (lst1, lst2) = processInput s
 

@@ -2,7 +2,8 @@ module Year2023.Day06 (solution1, solution2) where
 
 import Data.Char (isDigit)
 
-processInput :: String -> [(Double, Double)]
+processInput ::
+  String -> [(Double, Double)]
 processInput s = rs
  where
   ls = lines s
@@ -13,7 +14,8 @@ processInput s = rs
 -- x * (t - x) == d
 -- x^2 - t * x + d == 0
 solve :: (Double, Double) -> Int
-solve (t, d) = floor x1 - ceiling x2 + 1 - fix1 - fix2
+solve (t, d) =
+  floor x1 - ceiling x2 + 1 - fix1 - fix2
  where
   delta = sqrt $ t * t - 4 * d
   x1 = (t + delta) / 2
@@ -28,14 +30,15 @@ isRound x = abs (r - x) < 1e-5
 
 solution1 :: String -> IO ()
 solution1 =
- print
-  . product
-  . map solve
-  . processInput
+  print
+    . product
+    . map solve
+    . processInput
 
-processInput' :: String -> (Double, Double)
+processInput' ::
+  String -> (Double, Double)
 processInput' s =
- (getNum (head ls), getNum (last ls))
+  (getNum (head ls), getNum (last ls))
  where
   ls = lines s
   getNum = read . filter isDigit

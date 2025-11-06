@@ -11,16 +11,16 @@ data Trie = Node !Bool (M.Map Char Trie)
 
 -- two trie trees can be merged
 instance Semigroup Trie where
- Node t1 m1 <> Node t2 m2 =
-  Node
-   (t1 || t2)
-   (M.unionWith (<>) m1 m2)
+  Node t1 m1 <> Node t2 m2 =
+    Node
+      (t1 || t2)
+      (M.unionWith (<>) m1 m2)
 
 -- empty tree or leaf
 instance Monoid Trie where
- -- identity law: x <> mempty = x
- -- so bool field should be false
- mempty = Node False M.empty
+  -- identity law: x <> mempty = x
+  -- so bool field should be false
+  mempty = Node False M.empty
 
 -- construct a trie tree from a prefix
 toTrie :: String -> Trie
@@ -36,33 +36,35 @@ getPrefixTree = foldMap toTrie
 
 -- matchIndexes (getPrefixTree ["ab", "abc"]) 0 "abcd"
 -- [2, 3]
-matchIndexes :: Trie -> Int -> String -> [Int]
+matchIndexes ::
+  Trie -> Int -> String -> [Int]
 matchIndexes _ _ [] = []
 matchIndexes (Node _ currentMap) n (c : cs) =
- case currentMap M.!? c of
-  Just tree@(Node isMatch _) ->
-   [n + 1 | isMatch]
-    ++ matchIndexes tree (n + 1) cs
-  _ -> []
+  case currentMap M.!? c of
+    Just tree@(Node isMatch _) ->
+      [n + 1 | isMatch]
+        ++ matchIndexes tree (n + 1) cs
+    _ -> []
 
 countWays :: Trie -> String -> Int
 countWays tree input = search 0
  where
   n = length input
   search i
-   | i == n = 1
-   | i < n =
-     sum
-      ( map
-         -- same search start location
-         -- have same result
-         -- so we use memoize technology
-         (memo search)
-         (matchIndexes tree i (drop i input))
-      )
-   | otherwise = 0
+    | i == n = 1
+    | i < n =
+        sum
+          ( map
+              -- same search start location
+              -- have same result
+              -- so we use memoize technology
+              (memo search)
+              (matchIndexes tree i (drop i input))
+          )
+    | otherwise = 0
 
-processInput :: String -> (Trie, [String])
+processInput ::
+  String -> (Trie, [String])
 processInput s = (tree, inputs)
  where
   ls = lines s
@@ -72,14 +74,14 @@ processInput s = (tree, inputs)
 
 solution1 :: String -> IO ()
 solution1 s =
- print . length . filter (> 0) $
-  map (countWays tree) inputs
+  print . length . filter (> 0) $
+    map (countWays tree) inputs
  where
   (tree, inputs) = processInput s
 
 solution2 :: String -> IO ()
 solution2 s =
- print . sum $
-  map (countWays tree) inputs
+  print . sum $
+    map (countWays tree) inputs
  where
   (tree, inputs) = processInput s

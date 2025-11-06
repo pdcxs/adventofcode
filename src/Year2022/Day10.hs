@@ -50,8 +50,4 @@ getScreen vs =
         else r ++ "\n" ++ getScreen vs'
 
 solution2 :: String -> IO ()
-solution2 =
-  putStrLn
-    . getScreen
-    . run
-    . processInput
+solution2 = putStrLn . getScreen . run . processInput

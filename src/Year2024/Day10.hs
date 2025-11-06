@@ -1,7 +1,9 @@
 module Year2024.Day10 (solution1, solution2) where
 
 import Data.Char (ord)
-import Data.Containers.ListUtils (nubOrd)
+import Data.Containers.ListUtils (
+  nubOrd,
+ )
 import Data.Vector ((!?))
 import qualified Data.Vector as V
 
@@ -16,66 +18,69 @@ processInput s = (starts, m)
   w = V.length (V.head m)
   h = V.length m
   starts =
-   [ (x, y)
-   | x <- [0 .. w - 1]
-   , y <- [0 .. h - 1]
-   , get m (x, y) == Just 0
-   ]
+    [ (x, y)
+    | x <- [0 .. w - 1]
+    , y <- [0 .. h - 1]
+    , get m (x, y) == Just 0
+    ]
 
 parseMap :: [String] -> Map
-parseMap = V.fromList . map (V.fromList . map toInt)
+parseMap =
+  V.fromList
+    . map (V.fromList . map toInt)
  where
   toInt c = ord c - ord '0'
 
 get :: Map -> Loc -> Maybe Int
 get m (x, y) = do
- row <- m !? y
- row !? x
+  row <- m !? y
+  row !? x
 
 getDest :: Map -> Loc -> [Loc]
 getDest m loc =
- case get m loc of
-  Nothing -> []
-  Just 9 -> [loc]
-  Just n ->
-   concat
-    [ getDest m next
-    | next <- neighbors loc
-    , get m next == Just (n + 1)
-    ]
+  case get m loc of
+    Nothing -> []
+    Just 9 -> [loc]
+    Just n ->
+      concat
+        [ getDest m next
+        | next <- neighbors loc
+        , get m next == Just (n + 1)
+        ]
 
 neighbors :: Loc -> [Loc]
 neighbors (x, y) =
- [ (x + 1, y)
- , (x - 1, y)
- , (x, y + 1)
- , (x, y - 1)
- ]
+  [ (x + 1, y)
+  , (x - 1, y)
+  , (x, y + 1)
+  , (x, y - 1)
+  ]
 
 solution1 :: String -> IO ()
 solution1 s =
- print $
-  sum $
-   map (length . nubOrd . getDest m) starts
+  print $
+    sum $
+      map (length . nubOrd . getDest m) starts
  where
   (starts, m) = processInput s
 
 solution2 :: String -> IO ()
 solution2 s =
- print $
-  sum $
-   map (pathNum m) starts
+  print $
+    sum $
+      map (pathNum m) starts
  where
   (starts, m) = processInput s
 
 pathNum :: Map -> Loc -> Int
 pathNum m loc =
- case get m loc of
-  Nothing -> 0
-  Just 9 -> 1
-  Just n ->
-   sum
-    [ pathNum m next
-    | next <- neighbors loc
-    , get m next == Just (n + 1)
-    ]
+  case get m loc of
+    Nothing -> 0
+    Just 9 -> 1
+    Just n ->
+      sum
+        [ pathNum m next
+        | next <- neighbors loc
+        , get m next == Just (n + 1)
+        ]
+

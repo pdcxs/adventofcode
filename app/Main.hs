@@ -1,6 +1,9 @@
 module Main (main) where
 
-import AdventOfCode (animations, solutions)
+import AdventOfCode (
+  animations,
+  solutions,
+ )
 import qualified Data.Map as M
 import Data.Maybe (fromMaybe)
 import Linear (V2 (V2))
@@ -59,7 +62,8 @@ main = do
                   (question - 2)
            in animation anims fps title
 
-getTimeQuestion :: [String] -> (Int, Int, Int)
+getTimeQuestion ::
+  [String] -> (Int, Int, Int)
 getTimeQuestion args = (year, day, question)
  where
   qs = map read $ take 3 args
@@ -114,19 +118,30 @@ printHelp = do
       ++ " 2024 15 4 test\" will play animation of first"
       ++ " question of day 15, 2024 year with"
       ++ " test input and default FPS 1."
-  putStrLn "For more information, please see README.md."
+  putStrLn
+    "For more information, please see README.md."
 
-animation :: [String] -> Int -> String -> IO ()
+animation ::
+  [String] -> Int -> String -> IO ()
 animation ss fps title = do
   setTargetFPS 60
   let ls = lines (head ss)
       width = length (head ls)
       height = length ls
-      w = fromIntegral (width * fontSize) * 0.54 :: Double
-      h = fromIntegral (height * fontSize) * 1.13 :: Double
+      w =
+        fromIntegral (width * fontSize) * 0.54 ::
+          Double
+      h =
+        fromIntegral (height * fontSize) * 1.13 ::
+          Double
       w' = min maxWidth (ceiling w)
       h' = min maxHeight (ceiling h)
-      c = Camera2D (V2 0.0 0.0) (V2 0.0 0.0) 0.0 1.0
+      c =
+        Camera2D
+          (V2 0.0 0.0)
+          (V2 0.0 0.0)
+          0.0
+          1.0
       delay = 1.0 / fromIntegral fps
   win <- initWindow w' h' title
   font <- loadFont "assets/consola.ttf"
@@ -141,7 +156,13 @@ animation ss fps title = do
         beginDrawing
         beginMode2D cam'
         clearBackground white
-        drawTextEx ft f (V2 0 0) (fromIntegral fontSize) 0.0 black
+        drawTextEx
+          ft
+          f
+          (V2 0 0)
+          (fromIntegral fontSize)
+          0.0
+          black
         endMode2D
         endDrawing
         let nt = frt + currentTime
@@ -165,7 +186,11 @@ animation ss fps title = do
           | isZoomIn = z + 0.01
           | isZoomOut = z - 0.01
           | otherwise = z
-    return $ cam{camera2D'offset = offset + dir, camera2D'zoom = zoom}
+    return $
+      cam
+        { camera2D'offset = offset + dir
+        , camera2D'zoom = zoom
+        }
    where
     offset = camera2D'offset cam
     z = camera2D'zoom cam

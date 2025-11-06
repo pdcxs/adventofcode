@@ -27,7 +27,8 @@ import qualified Year2023.Day23
 import qualified Year2023.Day24
 import qualified Year2023.Day25
 
-solutions :: M.Map (Int, Int, Int) (String -> IO ())
+solutions ::
+  M.Map (Int, Int, Int) (String -> IO ())
 solutions =
   M.fromList
     [ ((2023, 1, 1), Year2023.Day01.solution1)
@@ -48,40 +49,142 @@ solutions =
     , ((2023, 8, 2), Year2023.Day08.solution2)
     , ((2023, 9, 1), Year2023.Day09.solution1)
     , ((2023, 9, 2), Year2023.Day09.solution2)
-    , ((2023, 10, 1), Year2023.Day10.solution1)
-    , ((2023, 10, 2), Year2023.Day10.solution2)
-    , ((2023, 11, 1), Year2023.Day11.solution1)
-    , ((2023, 11, 2), Year2023.Day11.solution2)
-    , ((2023, 12, 1), Year2023.Day12.solution1)
-    , ((2023, 12, 2), Year2023.Day12.solution2)
-    , ((2023, 13, 1), Year2023.Day13.solution1)
-    , ((2023, 13, 2), Year2023.Day13.solution2)
-    , ((2023, 14, 1), Year2023.Day14.solution1)
-    , ((2023, 14, 2), Year2023.Day14.solution2)
-    , ((2023, 15, 1), Year2023.Day15.solution1)
-    , ((2023, 15, 2), Year2023.Day15.solution2)
-    , ((2023, 16, 1), Year2023.Day16.solution1)
-    , ((2023, 16, 2), Year2023.Day16.solution2)
-    , ((2023, 17, 1), Year2023.Day17.solution1)
-    , ((2023, 17, 2), Year2023.Day17.solution2)
-    , ((2023, 18, 1), Year2023.Day18.solution1)
-    , ((2023, 18, 2), Year2023.Day18.solution2)
-    , ((2023, 19, 1), Year2023.Day19.solution1)
-    , ((2023, 19, 2), Year2023.Day19.solution2)
-    , ((2023, 20, 0), Year2023.Day20.solution0)
-    , ((2023, 20, 1), Year2023.Day20.solution1)
-    , ((2023, 20, 2), Year2023.Day20.solution2)
-    , ((2023, 21, 1), Year2023.Day21.solution1)
-    , ((2023, 21, 2), Year2023.Day21.solution2)
-    , ((2023, 22, 1), Year2023.Day22.solution1)
-    , ((2023, 22, 2), Year2023.Day22.solution2)
-    , ((2023, 23, 1), Year2023.Day23.solution1)
-    , ((2023, 23, 2), Year2023.Day23.solution2)
-    , ((2023, 24, 1), Year2023.Day24.solution1)
-    , ((2023, 24, 2), Year2023.Day24.solution2)
-    , ((2023, 25, 1), Year2023.Day25.solution1)
-    , ((2023, 25, 2), Year2023.Day25.solution2)
+    ,
+      ( (2023, 10, 1)
+      , Year2023.Day10.solution1
+      )
+    ,
+      ( (2023, 10, 2)
+      , Year2023.Day10.solution2
+      )
+    ,
+      ( (2023, 11, 1)
+      , Year2023.Day11.solution1
+      )
+    ,
+      ( (2023, 11, 2)
+      , Year2023.Day11.solution2
+      )
+    ,
+      ( (2023, 12, 1)
+      , Year2023.Day12.solution1
+      )
+    ,
+      ( (2023, 12, 2)
+      , Year2023.Day12.solution2
+      )
+    ,
+      ( (2023, 13, 1)
+      , Year2023.Day13.solution1
+      )
+    ,
+      ( (2023, 13, 2)
+      , Year2023.Day13.solution2
+      )
+    ,
+      ( (2023, 14, 1)
+      , Year2023.Day14.solution1
+      )
+    ,
+      ( (2023, 14, 2)
+      , Year2023.Day14.solution2
+      )
+    ,
+      ( (2023, 15, 1)
+      , Year2023.Day15.solution1
+      )
+    ,
+      ( (2023, 15, 2)
+      , Year2023.Day15.solution2
+      )
+    ,
+      ( (2023, 16, 1)
+      , Year2023.Day16.solution1
+      )
+    ,
+      ( (2023, 16, 2)
+      , Year2023.Day16.solution2
+      )
+    ,
+      ( (2023, 17, 1)
+      , Year2023.Day17.solution1
+      )
+    ,
+      ( (2023, 17, 2)
+      , Year2023.Day17.solution2
+      )
+    ,
+      ( (2023, 18, 1)
+      , Year2023.Day18.solution1
+      )
+    ,
+      ( (2023, 18, 2)
+      , Year2023.Day18.solution2
+      )
+    ,
+      ( (2023, 19, 1)
+      , Year2023.Day19.solution1
+      )
+    ,
+      ( (2023, 19, 2)
+      , Year2023.Day19.solution2
+      )
+    ,
+      ( (2023, 20, 0)
+      , Year2023.Day20.solution0
+      )
+    ,
+      ( (2023, 20, 1)
+      , Year2023.Day20.solution1
+      )
+    ,
+      ( (2023, 20, 2)
+      , Year2023.Day20.solution2
+      )
+    ,
+      ( (2023, 21, 1)
+      , Year2023.Day21.solution1
+      )
+    ,
+      ( (2023, 21, 2)
+      , Year2023.Day21.solution2
+      )
+    ,
+      ( (2023, 22, 1)
+      , Year2023.Day22.solution1
+      )
+    ,
+      ( (2023, 22, 2)
+      , Year2023.Day22.solution2
+      )
+    ,
+      ( (2023, 23, 1)
+      , Year2023.Day23.solution1
+      )
+    ,
+      ( (2023, 23, 2)
+      , Year2023.Day23.solution2
+      )
+    ,
+      ( (2023, 24, 1)
+      , Year2023.Day24.solution1
+      )
+    ,
+      ( (2023, 24, 2)
+      , Year2023.Day24.solution2
+      )
+    ,
+      ( (2023, 25, 1)
+      , Year2023.Day25.solution1
+      )
+    ,
+      ( (2023, 25, 2)
+      , Year2023.Day25.solution2
+      )
     ]
 
-animations :: M.Map (Int, Int, Int) (String -> [String])
+animations ::
+  M.Map
+    (Int, Int, Int)
+    (String -> [String])
 animations = M.empty

@@ -1,18 +1,19 @@
 module Year2022.Day02 (solution1, solution2) where
 
 data Choice = Rock | Paper | Scissors
- deriving (Eq)
+  deriving (Eq)
 
-parseInput :: String -> [(Choice, Choice)]
+parseInput ::
+  String -> [(Choice, Choice)]
 parseInput = map parseLine . lines
  where
   parseLine ln =
-   ( \xs ->
-      ( toC1 (head xs)
-      , toC2 (last xs)
-      )
-   )
-    $ words ln
+    ( \xs ->
+        ( toC1 (head xs)
+        , toC2 (last xs)
+        )
+    )
+      $ words ln
   toC1 "A" = Rock
   toC1 "B" = Paper
   toC1 "C" = Scissors
@@ -23,7 +24,8 @@ parseInput = map parseLine . lines
   toC2 _ = undefined
 
 getScore :: (Choice, Choice) -> Int
-getScore (c1, c2) = choiceScore c2 + outcomeScore (c1, c2)
+getScore (c1, c2) =
+  choiceScore c2 + outcomeScore (c1, c2)
  where
   choiceScore Rock = 1
   choiceScore Paper = 2
@@ -40,29 +42,30 @@ getScore (c1, c2) = choiceScore c2 + outcomeScore (c1, c2)
 
 solution1 :: String -> IO ()
 solution1 =
- print
-  . sum
-  . map getScore
-  . parseInput
+  print
+    . sum
+    . map getScore
+    . parseInput
 
-getChoice :: (Choice, Choice) -> (Choice, Choice)
+getChoice ::
+  (Choice, Choice) -> (Choice, Choice)
 getChoice (c1, c2) = (c1, getC c2)
  where
   getC :: Choice -> Choice
   getC Rock -- corresponding to X
-   | c1 == Rock = Scissors
-   | c1 == Paper = Rock
-   | otherwise = Paper
+    | c1 == Rock = Scissors
+    | c1 == Paper = Rock
+    | otherwise = Paper
   -- corresponding to Y
   getC Paper = c1
   getC Scissors -- corresponding to Z
-   | c1 == Rock = Paper
-   | c1 == Paper = Scissors
-   | otherwise = Rock
+    | c1 == Rock = Paper
+    | c1 == Paper = Scissors
+    | otherwise = Rock
 
 solution2 :: String -> IO ()
 solution2 =
- print
-  . sum
-  . map (getScore . getChoice)
-  . parseInput
+  print
+    . sum
+    . map (getScore . getChoice)
+    . parseInput

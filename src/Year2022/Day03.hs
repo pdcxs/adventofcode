@@ -11,35 +11,35 @@ import qualified Data.Set as S
 
 getPriority :: Char -> Int
 getPriority c
- | isLower c = ord c - ord 'a' + 1
- | otherwise = ord c - ord 'A' + 27
+  | isLower c = ord c - ord 'a' + 1
+  | otherwise = ord c - ord 'A' + 27
 
 solution1 :: String -> IO ()
 solution1 =
- print
-  . sum
-  . map
-   ( \l ->
-      sum
-       . S.map getPriority
-       . foldl1' S.intersection
-       . map S.fromList
-       . chunksOf (length l `div` 2)
-       $ l
-   )
-  . filter (not . null)
-  . lines
+  print
+    . sum
+    . map
+      ( \l ->
+          sum
+            . S.map getPriority
+            . foldl1' S.intersection
+            . map S.fromList
+            . chunksOf (length l `div` 2)
+            $ l
+      )
+    . filter (not . null)
+    . lines
 
 solution2 :: String -> IO ()
 solution2 =
- print
-  . sum
-  . map
-   ( sum
-      . S.map getPriority
-      . foldl1' S.intersection
-      . map S.fromList
-   )
-  . chunksOf 3
-  . filter (not . null)
-  . lines
+  print
+    . sum
+    . map
+      ( sum
+          . S.map getPriority
+          . foldl1' S.intersection
+          . map S.fromList
+      )
+    . chunksOf 3
+    . filter (not . null)
+    . lines

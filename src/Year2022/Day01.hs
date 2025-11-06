@@ -9,19 +9,19 @@ parseInput = map (map read) . splitOn [""] . lines
 
 solution1 :: String -> IO ()
 solution1 =
- print
-  . maximum
-  . map sum
-  . parseInput
+  print
+    . maximum
+    . map sum
+    . parseInput
 
 solution2 :: String -> IO ()
 solution2 =
- print
-  . fromDown
-  . sum
-  . take 3
-  . sort
-  . map (Down . sum)
-  . parseInput
+  print
+    . fromDown
+    . sum
+    . take 3
+    . sort
+    . map (Down . sum)
+    . parseInput
  where
   fromDown (Down x) = x

@@ -9,9 +9,9 @@ processInput = map read . words
 blink :: Int -> [Int]
 blink 0 = [1]
 blink n
- | even len =
-   [read left, read right]
- | otherwise = [2024 * n]
+  | even len =
+      [read left, read right]
+  | otherwise = [2024 * n]
  where
   s = show n
   len = length s
@@ -27,29 +27,33 @@ countStone :: Int -> Int -> Int
 countStone = memo2 f
  where
   f 0 _ = 1
-  f t n = sum $ map (countStone (t - 1)) $ blink n
+  f t n =
+    sum $ map (countStone (t - 1)) $ blink n
 
 step :: M.IntMap Int -> M.IntMap Int
 step m =
- M.fromListWith
-  (+)
-  [ (s', n)
-  | (s, n) <- M.assocs m
-  , s' <- blink s
-  ]
+  M.fromListWith
+    (+)
+    [ (s', n)
+    | (s, n) <- M.assocs m
+    , s' <- blink s
+    ]
 
 countStone' :: Int -> Int -> Int
 countStone' times stone =
- sum (iterate step (M.singleton stone 1) !! times)
+  sum
+    ( iterate step (M.singleton stone 1)
+        !! times
+    )
 
 countStones ::
- (Int -> Int -> Int) ->
- Int ->
- String ->
- Int
+  (Int -> Int -> Int) ->
+  Int ->
+  String ->
+  Int
 countStones f times s =
- sum $
-  map (f times) (processInput s)
+  sum $
+    map (f times) (processInput s)
 
 solution1 :: String -> IO ()
 solution1 = print . countStones countStone 25
