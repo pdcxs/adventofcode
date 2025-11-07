@@ -45,7 +45,7 @@ generateLine vs = (r, vs')
 getScreen :: [Int] -> String
 getScreen vs =
   let (r, vs') = generateLine vs
-   in if null vs'
+   in if null vs' || length vs' < 40
         then r
         else r ++ "\n" ++ getScreen vs'
 
