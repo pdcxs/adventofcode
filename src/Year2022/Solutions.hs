@@ -34,14 +34,8 @@ solutions =
     , ((2022, 8, 2), Year2022.Day08.solution2)
     , ((2022, 9, 1), Year2022.Day09.solution1)
     , ((2022, 9, 2), Year2022.Day09.solution2)
-    ,
-      ( (2022, 10, 1)
-      , Year2022.Day10.solution1
-      )
-    ,
-      ( (2022, 10, 2)
-      , Year2022.Day10.solution2
-      )
+    , ((2022, 10, 1), Year2022.Day10.solution1)
+    , ((2022, 10, 2), Year2022.Day10.solution2)
     ]
 
 animations ::

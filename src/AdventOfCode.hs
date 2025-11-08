@@ -1,7 +1,6 @@
 module AdventOfCode (solutions, animations) where
 
 import qualified Data.Map as M
-
 import qualified Year2022.Solutions
 import qualified Year2023.Solutions
 import qualified Year2024.Solutions
