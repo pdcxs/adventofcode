@@ -1,8 +1,7 @@
 module Year2022.Day01 (solution1, solution2) where
 
-import Data.List (sort)
+import Data.List (sortBy)
 import Data.List.Split (splitOn)
-import Data.Ord (Down (..))
 
 parseInput :: String -> [[Int]]
 parseInput = map (map read) . splitOn [""] . lines
@@ -17,11 +16,8 @@ solution1 =
 solution2 :: String -> IO ()
 solution2 =
   print
-    . fromDown
     . sum
     . take 3
-    . sort
-    . map (Down . sum)
+    . sortBy (flip compare)
+    . map sum
     . parseInput
- where
-  fromDown (Down x) = x
