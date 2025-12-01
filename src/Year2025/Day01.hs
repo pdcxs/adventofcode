@@ -20,16 +20,13 @@ solution1 = print . scan 0 50 . processInput
 scan' :: Int -> Int -> [Int] -> Int
 scan' cnt _ [] = cnt
 scan' cnt n (x : xs)
-  | n'' == 0 = scan' (xr + 1) n'' xs
-  | n == 0 = scan' xr n'' xs
-  | n' < 0 = scan' (r + 1) n'' xs
-  | n' > 99 = scan' r n'' xs
-  | otherwise = scan' cnt n'' xs
+  | target > 99 || n == 0 = scan' (cnt + r) n' xs
+  | target <= 0 = scan' (cnt + r + 1) n' xs
+  | otherwise = scan' cnt n' xs
  where
-  n' = n + x
-  n'' = n' `mod` 100
-  r = cnt + (abs n' `div` 100)
-  xr = cnt + (abs x `div` 100)
+  target = n + x
+  r = abs target `div` 100
+  n' = target `mod` 100
 
 solution2 :: String -> IO ()
 solution2 = print . scan' 0 50 . processInput
