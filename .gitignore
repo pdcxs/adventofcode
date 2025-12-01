@@ -4,3 +4,6 @@
 *.lock
 out*
 *.png
+.DS_Store
+.DS_Store?
+**/.DS_Store
