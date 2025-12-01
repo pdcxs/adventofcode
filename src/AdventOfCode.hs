@@ -4,6 +4,7 @@ import qualified Data.Map as M
 import qualified Year2022.Solutions
 import qualified Year2023.Solutions
 import qualified Year2024.Solutions
+import qualified Year2025.Solutions
 
 solutions ::
   M.Map (Int, Int, Int) (String -> IO ())
@@ -13,6 +14,7 @@ solutions =
     [ Year2022.Solutions.solutions
     , Year2023.Solutions.solutions
     , Year2024.Solutions.solutions
+    , Year2025.Solutions.solutions
     ]
 
 animations ::
@@ -25,4 +27,5 @@ animations =
     [ Year2022.Solutions.animations
     , Year2023.Solutions.animations
     , Year2024.Solutions.animations
+   ,  Year2025.Solutions.animations
     ]
