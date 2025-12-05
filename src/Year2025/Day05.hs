@@ -5,58 +5,52 @@ import Data.List.Split (splitOn, splitWhen)
 type Range = (Int, Int)
 
 processInput :: String -> ([Range], [Int])
-processInput s = (map parseRange rgs, map read xs)
+processInput s = (map getRange rgs, map read xs)
  where
-  ls = lines s
-  parts = splitWhen null ls
-  rgs = head parts
-  xs = last parts
-  parseRange ln =
+  pts = splitWhen null $ lines s
+  rgs = head pts
+  xs = last pts
+  getRange ln =
     let ns = splitOn "-" ln
      in (read (head ns), read (last ns))
 
-isIn :: Int -> [Range] -> Bool
-isIn _ [] = False
-isIn x ((s, e) : rgs)
-  | x >= s && x <= e = True
-  | otherwise = isIn x rgs
+inRngs :: Int -> [Range] -> Bool
+inRngs x = any (\(s, e) -> x >= s && x <= e)
 
-count :: ([Range], [Int]) -> Int
-count (rgs, xs) = length $ filter (`isIn` rgs) xs
+count :: [Range] -> [Int] -> Int
+count rgs = length . filter (`inRngs` rgs)
 
 solution1 :: String -> IO ()
-solution1 = print . count . processInput
+solution1 = print . uncurry count . processInput
 
-removeRng :: Range -> Range -> [Range]
-removeRng (x, y) (s, e)
-  | x < s && y > e = [(x, s - 1), (e + 1, y)]
-  | x < s && y >= s && y <= e = [(x, s - 1)]
+diffRng :: Range -> Range -> [Range]
+diffRng (x, y) (s, e)
   | x < s && y < s = [(x, y)]
+  | x < s && y <= e = [(x, s - 1)]
+  | x < s && y > e = [(x, s - 1), (e + 1, y)]
   | x <= e && y <= e = []
   | x <= e && y > e = [(e + 1, y)]
   | otherwise = [(x, y)]
 
-mergeRanges :: [Range] -> [Range]
-mergeRanges = go []
+addTo :: Range -> [Range] -> [Range]
+addTo r rs = delete [r] rs ++ rs
  where
-  go rs [] = rs
-  go rs (x : xs) = go rs' xs
-   where
-    rs' = x' ++ rs
-    x' = removeRngs [x] rs
-  removeRngs x [] = x
-  removeRngs [] _ = []
-  removeRngs x (r : rs) =
-    removeRngs (concatMap (`removeRng` r) x) rs
+  delete inputs [] = inputs
+  delete [] _ = []
+  delete inputs (x : xs) =
+    delete (concatMap (`diffRng` x) inputs) xs
 
-countRngs :: [Range] -> Int
-countRngs [] = 0
-countRngs ((s, e) : rs) = e - s + 1 + countRngs rs
+deleteOverlaps :: [Range] -> [Range]
+deleteOverlaps = foldr addTo []
+
+countRange :: Range -> Int
+countRange (s, e) = e - s + 1
 
 solution2 :: String -> IO ()
 solution2 =
   print
-    . countRngs
-    . mergeRanges
+    . sum
+    . map countRange
+    . deleteOverlaps
     . fst
     . processInput
