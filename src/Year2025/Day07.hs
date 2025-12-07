@@ -1,70 +1,37 @@
 module Year2025.Day07 (solution1, solution2) where
 
-import Data.Containers.ListUtils (nubOrd)
-import qualified Data.IntMap.Strict as M
-import Data.MemoTrie (memo)
-import qualified Data.Set as S
+import qualified Data.IntMap as M
+import qualified Data.IntSet as S
+import Data.List (elemIndex, elemIndices)
+import Data.Maybe (fromJust)
 
-type Pos = (Int, Int)
+type Map = M.IntMap S.IntSet -- key is y, value is [Pos]
+type Record = M.IntMap Int -- key is Pos, value is count
 
--- key is x, value is set of y
-type Map = M.IntMap (S.Set Int)
-
-processInput :: String -> (Map, [Pos])
-processInput input = (mp, [pos])
+processInput :: String -> (Map, Record)
+processInput s = (m, M.singleton pos 1)
  where
-  (pos, mp) = parseMap 0 0 [] M.empty (lines input)
-  parseMap _ _ s m [] = (head s, m)
-  parseMap _ y s m ([] : ss) =
-    parseMap 0 (y + 1) s m ss
-  parseMap x y _ m (('S' : cs) : ss) =
-    parseMap (x + 1) y [(x, y)] m (cs : ss)
-  parseMap x y s m (('^' : cs) : ss) =
-    parseMap
-      (x + 1)
-      y
-      s
-      (M.insertWith S.union x (S.singleton y) m)
-      (cs : ss)
-  parseMap x y s m ((_ : cs) : ss) =
-    parseMap (x + 1) y s m (cs : ss)
+  pos = fromJust $ elemIndex 'S' (head (lines s))
+  m = M.fromList . zip [1 ..] $ getIdx (tail (lines s))
+  getIdx = map (S.fromList . elemIndices '^')
 
-split :: Map -> Pos -> ([Pos], [Pos])
-split m (x, y) =
-  case (m M.!? x) >>= S.lookupGT y of
-    Nothing -> ([], [(x, y)])
-    Just sy -> ([(x, sy)], [(x - 1, sy), (x + 1, sy)])
+step :: Int -> Map -> Record -> Maybe (Int, Record)
+step y m rcd = do
+  sps <- m M.!? y
+  let (inter, unchanged) = M.partitionWithKey inSps rcd
+      inSps k _ = k `S.member` sps
+      left = M.mapKeysMonotonic pred inter
+      right = M.mapKeysMonotonic succ inter
+      rcd' = foldr1 (M.unionWith (+)) [unchanged, left, right]
+  return (M.size inter, rcd')
 
-step ::
-  Map -> [Pos] -> (S.Set Pos, [Pos])
-step m ls = (sp, ls')
- where
-  sps = map (split m) ls
-  ls' = nubOrd (concatMap snd sps)
-  sp = S.fromList (concatMap fst sps)
-
-getSplitters ::
-  S.Set Pos -> Map -> [Pos] -> S.Set Pos
-getSplitters sps m ls
-  | S.null sps' = sps
-  | otherwise =
-      getSplitters (S.union sps sps') m ls'
- where
-  (sps', ls') = step m ls
+count :: Int -> Int -> (Map, Record) -> (Int, Int)
+count c y (m, rcd) = case step y m rcd of
+  Nothing -> (c, sum rcd)
+  Just (sps, rcd') -> count (c + sps) (y + 1) (m, rcd')
 
 solution1 :: String -> IO ()
-solution1 =
-  print
-    . S.size
-    . uncurry (getSplitters S.empty)
-    . processInput
+solution1 = print . fst . count 0 1 . processInput
 
 solution2 :: String -> IO ()
-solution2 s = print (count (head start) :: Int)
- where
-  (m, start) = processInput s
-  count ls
-    | null sps = 1
-    | otherwise = sum $ map (memo count) ls'
-   where
-    (sps, ls') = split m ls
+solution2 = print . snd . count 0 1 . processInput
