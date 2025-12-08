@@ -4,78 +4,49 @@ import qualified Data.IntMap as M
 import Data.List (sortBy)
 import Data.List.Split (splitOn)
 
-type FindUnionSet = M.IntMap Int
-
-build :: Int -> FindUnionSet
-build n = M.fromList (map (\x -> (x, x)) [0 .. n - 1])
-
-search :: Int -> FindUnionSet -> (Int, FindUnionSet)
-search x fus
-  | p == x || p == pp = (p, fus)
-  | otherwise = (pp, M.insert x pp fus')
- where
-  p = fus M.! x
-  (pp, fus') = search p fus
-
-join :: Int -> Int -> FindUnionSet -> FindUnionSet
-join x y fus =
-  let (r1, fus1) = search x fus
-      (r2, fus2) = search y fus1
-   in M.insert r2 r1 fus2
-
+type Trees = M.IntMap Int
 type Pos = (Int, Int, Int)
 type DistRecord = M.IntMap [(Int, Int)]
 
-processInput :: String -> ([Pos], FindUnionSet)
+search :: Trees -> Int -> Int
+search trees x =
+  let p = trees M.! x
+   in if p == x then p else search trees p
+
+processInput :: String -> ([Pos], Trees)
 processInput s = (map parse ls, build (length ls))
  where
   ls = lines s
   parse ln =
     let xs = splitOn "," ln
      in (read (head xs), read (xs !! 1), read (last xs))
+  build n = M.fromList [(i, i) | i <- [0 .. n - 1]]
 
 buildDist :: [Pos] -> DistRecord
 buildDist ps =
   M.fromListWith
     (++)
     [ (dist p1 p2, [(i, j)])
-    | (i, p1) <- idx
-    , (j, p2) <- idx
+    | (i, p1) <- zip [0 ..] ps
+    , (j, p2) <- zip [0 ..] ps
     , i < j
     ]
  where
-  idx = zip [0 ..] ps
   dist (x1, y1, z1) (x2, y2, z2) =
-    (x1 - x2) * (x1 - x2)
-      + (y1 - y2) * (y1 - y2)
-      + (z1 - z2) * (z1 - z2)
+    sum $ map s [x1 - x2, y1 - y2, z1 - z2]
+  s x = x * x
 
-step ::
-  (FindUnionSet, DistRecord) ->
-  (FindUnionSet, DistRecord)
-step (fus, rcd) = (join from to fus, rcd'')
+step :: (Trees, DistRecord) -> (Trees, DistRecord)
+step (trees, rcd) = (join from to, rcd'')
  where
   ((dist, pairs), rcd') = M.deleteFindMin rcd
-  (from, to) = head pairs
-  rcd'' =
-    let ts = tail pairs
-     in if null ts then rcd' else M.insert dist ts rcd'
+  ((from, to), ts) = (head pairs, tail pairs)
+  rcd'' = if null ts then rcd' else M.insert dist ts rcd'
+  join x y = M.insert (search trees x) (search trees y) trees
 
 nTimes :: Int -> (a -> a) -> a -> a
 nTimes 0 _ x = x
 nTimes n f x = nTimes (n - 1) f (f x)
-
-findRoots ::
-  Int -> Int -> FindUnionSet -> (FindUnionSet, [Int])
-findRoots n idx fus
-  | n == idx = (fus, [])
-  | otherwise =
-      let (g, fus') = search idx fus
-          (fus'', rts) = findRoots n (idx + 1) fus'
-       in (fus'', g : rts)
-
-count :: [Int] -> [Int]
-count xs = M.elems $ M.fromListWith (+) $ map (,1) xs
 
 solution1 :: String -> IO ()
 solution1 s =
@@ -84,31 +55,29 @@ solution1 s =
     . take 3
     . sortBy (flip compare)
     . count
-    . snd
-    . findRoots n 0
-    $ fst (nTimes 1000 step (fus, rcd))
+    . findRoots
+    $ fst (nTimes 1000 step (trees, rcd))
  where
-  (pos, fus) = processInput s
+  (pos, trees) = processInput s
   rcd = buildDist pos
-  n = M.size fus
+  n = M.size trees
+  findRoots t = map (search t) [1 .. n - 1]
+  count = M.elems . M.fromListWith (+) . map (,1 :: Int)
 
-connect ::
-  Int ->
-  (FindUnionSet, DistRecord) ->
-  (Int, Int)
-connect n (fus, rcd)
+run :: Int -> (Trees, DistRecord) -> (Int, Int)
+run n (trees, rcd)
   | all (== head rts) (tail rts) =
       head . snd $ M.findMin rcd
-  | otherwise = connect n (fus'', rcd')
+  | otherwise = run n (trees', rcd')
  where
-  (fus', rcd') = step (fus, rcd)
-  (fus'', rts) = findRoots n 0 fus'
+  (trees', rcd') = step (trees, rcd)
+  rts = map (search trees') [1 .. n - 1]
 
 solution2 :: String -> IO ()
 solution2 s = print (x1 * x2)
  where
-  (pos, fus) = processInput s
-  (i, j) = connect n (fus, buildDist pos)
+  (pos, trees) = processInput s
+  (i, j) = run n (trees, buildDist pos)
   (x1, _, _) = pos !! i
   (x2, _, _) = pos !! j
-  n = M.size fus
+  n = M.size trees
