@@ -1,47 +1,9 @@
 module Year2025.Day09 (solution1, solution2) where
 
--- the input shape looks like:
---      XXXXXXX
---    XXXXXXXXXXXXX
---   XXXXXXXXXXXXXXX
---  XXXXXXXXXXXXXXXXX
--- XXXXXXXXXXXXXXXXXXX
---                  XX
--- XXXXXXXXXXXXXXXXXXX
---  XXXXXXXXXXXXXXXXX
---   XXXXXXXXXXXXXXX
---    XXXXXXXXXXXXX
---       XXXXXXX
---
--- So we don't need to worry about too complex cases
--- For example
--- In following shape:
---
--- XXX                    XXX
--- XXX                    XXX
--- XXX                    XXX
--- XXX                    XXX
--- XXX                    XXX
--- XXX                    XXX
--- XXX                    XXX
--- XXX                    XXX
--- XXX                    XXX
--- XXX                    XXX
--- XXX                    XXX
--- XXX                    XXX
--- XXXXXXXXXXXXXXXXXXXXXXXXXX
--- XXXXXXXXXXXXXXXXXXXXXXXXXX
---
--- we need to worry about 4 corners of the hole
--- There is no lines cross it but it's not valid
--- However, this input doesn't include this case
-
-import Data.Foldable (maximumBy)
+import Data.List (sort)
 import Data.List.Split (splitOn)
 
 type Pos = (Int, Int)
-type Line = (Pos, Pos)
-type Rect = (Pos, Pos)
 
 processInput :: String -> [Pos]
 processInput = map parse . lines
@@ -66,32 +28,54 @@ solution1 =
     . getPairs
     . processInput
 
-rectValid :: [Line] -> Rect -> Bool
-rectValid edges rect = not $ any (check rect) edges
+-- the input shape looks like:
+--      XXXXXXX
+--    XXXXXXXXXXXXX
+--   XXXXXXXXXXXXXXX
+--  XXXXXXXXXXXXXXXXX
+-- XXXXXXXXXXXXXXXXXXX
+--                  XX
+-- XXXXXXXXXXXXXXXXXXX
+--  XXXXXXXXXXXXXXXXX
+--   XXXXXXXXXXXXXXX
+--    XXXXXXXXXXXXX
+--       XXXXXXX
 
-check :: Rect -> Line -> Bool
-check ((lx, by), (rx, ty)) ((x1, y1), (x2, y2))
-  | x1 == x2 =
-      inRange x1 (lx, rx)
-        && overlap (by, ty) (min y1 y2, max y1 y2)
-  | otherwise =
-      inRange y1 (by, ty)
-        && overlap (lx, rx) (min x1 x2, max x1 x2)
+-- We can find right most inner points
+-- split the shape into top parts and bottom parts
+-- test each point with the corresponding inner point
+-- filter out the rects contains other points
+-- and get the maximum area.
+
+findInner :: [Pos] -> [Pos]
+findInner xs =
+  sort
+    . map (uncurry max)
+    . filter
+      ( \((x1, _), (x2, _)) ->
+          abs (x1 - x2) > 50000
+      )
+    $ zip xs (tail xs)
+
+validPair :: [Pos] -> (Pos, Pos) -> Bool
+validPair ps rect = not $ any (inRect rect) ps
  where
-  inRange v (a, b) = a < v && b > v
-  overlap (a1, b1) (a2, b2) =
-    not (b1 <= a2 || a1 >= b2)
+  inRect ((x1, y1), (x2, y2)) (x, y) =
+    min x1 x2 < x
+      && max x1 x2 > x
+      && min y1 y2 < y
+      && max y1 y2 > y
 
 solution2 :: String -> IO ()
-solution2 input =
-  print $
-    maximumBy (\(a1, _) (a2, _) -> compare a1 a2) $
-      zip areas ps
+solution2 s = print $ max as1 as2
  where
-  pos = processInput input
-  edges = (last pos, head pos) : zip pos (tail pos)
-  pairs = map fix $ getPairs pos
-  ps = filter (rectValid edges) pairs
-  areas = map (uncurry getRectArea) ps
-  fix ((x1, y1), (x2, y2)) =
-    ((min x1 x2, min y1 y2), (max x1 x2, max y1 y2))
+  pos = processInput s
+  keys = findInner pos
+  p1@(_, y1) = head keys -- less y means top inner point
+  p2@(_, y2) = last keys -- bottom inner point
+  tops = filter ((<= y1) . snd) pos -- top half shape
+  bottoms = filter ((>= y2) . snd) pos
+  ps1 = filter (validPair tops) $ map (p1,) tops
+  ps2 = filter (validPair bottoms) $ map (p2,) bottoms
+  as1 = maximum (map (uncurry getRectArea) ps1)
+  as2 = maximum (map (uncurry getRectArea) ps2)
