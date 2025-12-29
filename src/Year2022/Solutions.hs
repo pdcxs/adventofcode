@@ -18,6 +18,7 @@ import qualified Year2022.Day14
 import qualified Year2022.Day15
 import qualified Year2022.Day16
 import qualified Year2022.Day17
+import qualified Year2022.Day18
 
 solutions ::
   M.Map (Int, Int, Int) (String -> IO ())
@@ -57,6 +58,8 @@ solutions =
     , ((2022, 16, 2), Year2022.Day16.solution2)
     , ((2022, 17, 1), Year2022.Day17.solution1)
     , ((2022, 17, 2), Year2022.Day17.solution2)
+    , ((2022, 18, 1), Year2022.Day18.solution1)
+    , ((2022, 18, 2), Year2022.Day18.solution2)
     ]
 
 animations ::
