@@ -100,9 +100,7 @@ nextPos m start visited p@(x, y) = do
     ( M.null curPipe
         || neighbor `M.member` curPipe
     )
-  case M.lookup p pipe of
-    Nothing -> []
-    Just n -> return n
+  maybe [] return (M.lookup p pipe)
 
 getPath :: String -> [Pos]
 getPath s = search m start start []
