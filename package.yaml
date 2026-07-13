@@ -36,7 +36,6 @@ dependencies:
   - h-raylib
   - random
   - directory
-  - sbv
 
 ghc-options:
   - -Wall
