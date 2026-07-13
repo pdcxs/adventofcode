@@ -2,15 +2,21 @@
 
 [Advent of Code](https://adventofcode.com/)
 
-Principles:
+## Principles
+
 - Strive for code readability
 - Minimize dependency on obscure libraries
 - Avoid language extensions when possible
 - Each file is self-contained
 - Optimize performance without compromising readability
 
+## Execution Instructions  
 
-Execution Instructions:  
+You may need following dependencies:
+
+```bash
+sudo apt install libxinerama-dev libxcursor-dev libxrandr-dev libxi-dev libxext-dev libgmp-dev z3
+```
 
 This project uses Stack for building and compilation.
 
@@ -41,6 +47,7 @@ stack run 2024 1 1 test
 ```
 
 Some solutions feature animation demonstrations:
+
 - Problem 1 animation corresponds to problem ID 3
 - Problem 2 animation corresponds to problem ID 4
 - Frame per second (FPS) can be specified (default: 1 FPS)
@@ -68,7 +75,7 @@ This is my [Bilibili video record](https://www.bilibili.com/video/BV1vPC5YUEQZ) 
 
 [Advent of Code](https://adventofcode.com/)
 
-原则：
+## 原则
 
 - 代码尽量保证可读性
 - 尽量不依赖于冷门的库
@@ -76,8 +83,13 @@ This is my [Bilibili video record](https://www.bilibili.com/video/BV1vPC5YUEQZ) 
 - 每个文件是独立的
 - 尽量在不影响可读性的前提下提高代码性能
 
+## 运行方法
 
-运行方法：
+可能需要安装以下依赖：
+
+```bash
+sudo apt install libxinerama-dev libxcursor-dev libxrandr-dev libxi-dev libxext-dev libgmp-dev z3
+```
 
 本项目依靠 stack 构建与编译
 
