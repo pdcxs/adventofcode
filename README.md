@@ -10,7 +10,7 @@
 - Each file is self-contained
 - Optimize performance without compromising readability
 
-## Execution Instructions  
+## Execution Instructions
 
 You may need following dependencies:
 
@@ -61,13 +61,20 @@ stack run 2024 15 4 test 2
 Example 2: Run animation for 2024 Day 15 Problem 1 with regular input (2 FPS):
 
 ```bash
-stack run 2024 15 3 2 
+stack run 2024 15 3 2
 ```
 
 Animation can be controlled by following keys:
 
 - Arrow keys: Move around
 - `-`/`=` key: Zoom out and Zoom in
+
+Some questions have two versions, you can use following commands to run second version:
+
+```bash
+stack run -- 2025 10 -1 # second version of Year 2025 Day 10 first question
+stack run -- 2025 10 -2 # second version of Year 2025 Day 10 second question
+```
 
 This is my [Bilibili video record](https://www.bilibili.com/video/BV1vPC5YUEQZ) of the solutions.
 
@@ -135,5 +142,12 @@ stack run 2024 15 3 2
 
 - 方向键: 移动视角
 - `-`或者`=`: 缩放视角
+
+一些问题会存在两个版本，可以使用以下命令运行第二个版本：
+
+```bash
+stack run -- 2025 10 -1 # 运行2025年第10天第一题的第二个版本
+stack run -- 2025 10 -2 # 运行2025年第10天第二题的第二个版本
+```
 
 这是我的[B站视频记录](https://www.bilibili.com/video/BV1vPC5YUEQZ)。
