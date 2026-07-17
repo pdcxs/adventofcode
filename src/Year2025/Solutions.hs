@@ -12,6 +12,7 @@ import qualified Year2025.Day08
 import qualified Year2025.Day08V2
 import qualified Year2025.Day09
 import qualified Year2025.Day10
+import qualified Year2025.Day10V2
 import qualified Year2025.Day11
 import qualified Year2025.Day12
 
@@ -41,6 +42,8 @@ solutions =
     , ((2025, 9, 2), Year2025.Day09.solution2)
     , ((2025, 10, 1), Year2025.Day10.solution1)
     , ((2025, 10, 2), Year2025.Day10.solution2)
+    , ((2025, 10, -1), Year2025.Day10V2.solution1)
+    , ((2025, 10, -2), Year2025.Day10V2.solution2)
     , ((2025, 11, 1), Year2025.Day11.solution1)
     , ((2025, 11, 2), Year2025.Day11.solution2)
     , ((2025, 12, 1), Year2025.Day12.solution1)

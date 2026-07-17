@@ -1,3 +1,4 @@
+-- List version, higher performance than containers version
 module Year2025.Day10 (solution1, solution2) where
 
 import Data.List.Split (splitOn)
